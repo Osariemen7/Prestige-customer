@@ -177,7 +177,7 @@ let refresh = terms(tok)
         console.log(meal)
     return(
         <div>
-        <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
+        <Link to='/components/accounts'><i class="fa-solid fa-chevron-left bac"></i></Link>
         <Typography  variant="h6"  marginLeft='3%' marginTop='3%' fontWeight="fontWeightBold">Confirm Details</Typography>
                   
                <div style={{backgroundColor:'rgb(235, 245, 248)', padding: '1%', margin:'4%'}}>
@@ -200,7 +200,7 @@ let refresh = terms(tok)
                <p>{meal.selectedOption.label}</p>
            </div>
            </div>
-
+<br/>
            <div style={{backgroundColor:'rgb(235, 245, 248)', padding: '1%', margin:'4%', alignItems: 'center', justifyContent: 'center'}}>
              <p>Be sure of the account details before sending<br/> funds as this cannot be reversed</p>
            </div>
