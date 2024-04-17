@@ -41,6 +41,10 @@ const navigate = useNavigate()
                   <p className='dfp'>Assistant</p></Link>
                     </li>
                     <li className='nav-list'>
+                    <Link to='/components/overdraft' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Overdraft</p></Link>
+                    </li>  
+                    <li className='nav-list'>
             <Link to='/components/support' className='nav-text'>
             <i class="fa-solid fa-phone"></i>
               <p className='dfp'>Support</p>
