@@ -1,16 +1,16 @@
 {
-  "short_name": "Prestige",
-  "name": "Prestige Finance",
+  "short_name": "PrestigePay",
+  "name": "PrestigePay",
   "icons": [
     {
-      "src": "Group.png",
+      "src": "Icone 2.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/png",
+      "type": "image/x-icon",
       "purpose": "any maskable"
     },
     {
-      "src": "logoicon.jpeg",
-      "type": "image/jpeg",
+      "src": "Group.png",
+      "type": "image/png",
       "sizes": "192x192"
       
     },
@@ -20,8 +20,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://prestigefinance.app/",
+  "start_url": "https://prestige-customer-kn35.vercel.app/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#000000"
+  "background_color": "#ffffff"
 }
