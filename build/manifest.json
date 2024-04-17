@@ -1,24 +1,26 @@
 {
-  "short_name": "Prestige App",
-  "name": "Create React App Sample",
+  "short_name": "PrestigePay",
+  "name": "PrestigePay",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "Icone 2.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "any maskable"
     },
     {
-      "src": "logo192.png",
+      "src": "Group.png",
       "type": "image/png",
       "sizes": "192x192"
+      
     },
     {
-      "src": "logo512.png",
+      "src": "Group.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://prestige-customer-kn35.vercel.app/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
