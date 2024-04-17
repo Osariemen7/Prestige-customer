@@ -17,6 +17,7 @@ import PostMon from './components/getgrp2';
 import Receipt from './components/getrec';
 import GetGroup from './components/getgroup';
 import Recdet from './components/Receipt';
+import Overdraft from './components/overdraft.jsx';
 import Resident from './components/resident';
 import Business from './components/rebout';
 import Bud from './components/reboard';
@@ -64,6 +65,7 @@ function App() {
         <Route path='/components/last' element={<Last />} />
         <Route path='/components/support' element={<Support />} />
         <Route path= '/components/referral' element={<Referral />} />
+        <Route path='/components/overdraft' element={<Overdraft/>} />
 
      </Routes>
       
