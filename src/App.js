@@ -27,6 +27,9 @@ import Update from './components/update';
 import Last from './components/last'
 import Referral from './components/referral.jsx';
 import Support from './components/support.jsx';
+import BarChart from './components/test.js';
+import Airtime from './components/airtime.jsx';
+import Expense from './components/expense.jsx';
 function App() {
   const [loading, setLoading] = useState(true)
   
@@ -66,6 +69,9 @@ function App() {
         <Route path='/components/support' element={<Support />} />
         <Route path= '/components/referral' element={<Referral />} />
         <Route path='/components/overdraft' element={<Overdraft/>} />
+        <Route path='/components/test' element={<BarChart/>} />
+        <Route path='/components/airtime' element={<Airtime />} />
+        <Route path='/components/expense' element={<Expense />} />
 
      </Routes>
       

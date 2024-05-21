@@ -197,6 +197,47 @@ hr{
   text-align: left;
   margin:15px 15px;
 }
+.asx{
+  display: flex;
+  gap: 128px;
+  padding: 0% 8%; 
+}
+.bfle{
+  display: flex;
+  gap: 145px; 
+}
+.spt{
+  border: 1px solid gainsboro;
+  margin:2% 9%;
+  border-radius: 14px;
+  padding:5% 3% 4% 5%;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+  background-color: rgb(136, 205, 233);
+  font-size: 13px;
+}
+.progress-bar {
+  width: 100%;
+  height: 5px;
+  background-color: blue;
+  margin-top: 10%;
+  margin-bottom: 2%;
+}
+.clun{
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.progress-b {
+  height: 100%;
+  background-color: rgb(149, 216, 238);
+  transition: width 0.3s ease-in-out;
+}
+.progress-bi {
+  width: 100%;
+  height: 6px;
+  background-color: rgb(11, 11, 128);
+  margin-top: 5%;
+  margin-bottom: 2%;
+}
 .dh3{
   margin: 0;
 }
@@ -207,19 +248,58 @@ hr{
   border-radius: 15px;
   text-align: center;
 }
-.nav-menu{
-  background-color: #060b26;
-  width: 50%;
-  height:100vh;
-  display: flex;
-  justify-content: center;
+.sidebar {
+  width: 250px;
+  height: 100%;
+  max-height: 100vh;
   position: fixed;
   top: 0;
-  left: -100%;
-  transition: 850ms;;
+  left: 0;
+  background-color: #060b26;
+   overflow-x: hidden;
+  padding-top: 0px;
+}
+
+.content {
+  margin-left: 250px;
+  padding: 16px;
+  height: 100%;
+}
+
+.nav-menu {
   padding: 0;
-  overflow-x: scroll;
-  z-index: 1;
+  margin: 0;
+}
+
+.nav-menu-item {
+  list-style-type: none;
+}
+
+.nav-list {
+  margin-bottom: 10px;
+}
+
+.nav-text {
+  color: white;
+  text-decoration: none;
+  font-size: 25px;
+  display: block;
+  padding: 10px;
+}
+
+.nav-text:hover {
+  background-color: #258ff3;
+}
+
+.nav-close {
+  margin-top: -20px;
+}
+
+.nav-close i {
+  float: right;
+  margin-right: 10px;
+  cursor: pointer;
+  color: white;
 }
 .nav-menu2{
   background-color: #000;
@@ -236,55 +316,7 @@ hr{
   z-index: 1;
 }
 
-.nav-menu.active {
-  left: 0;
-  transition: 350ms;
-}
-.nav-text{
-  justify-content: start;
-  align-items: center;
-  text-decoration: none;
-  color:#fff;
-  width: 100%;
-  height: 50%;
-}
-.nav-text span{
-  margin-left: 14px;
-}
-.nav-text i{
-  color: #fff;
-  font-size: 30px;
-}
-.nav-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 85px;
-  padding: 8px 15px 8px 16px;
-  border-bottom: 1px solid #fff ;
-}
-.nav-close{
-  list-style: none;
-  justify-content: end;
-  color:#fff;
-  margin-left: 60%;
-  
-}
-.nav-active{
-  justify-content: start;
-  align-items: center;
-  text-decoration: none;
-  color:#fff;
-  width: 95%;
-  height: 50%;
-  padding-top: 5%;
-  background-color: #060b26;
-}
-.nav-menu-item{
-  width:100%;
-}
+
 /* transact */
 .tl{
   display: flex;
@@ -999,20 +1031,21 @@ border: 1px solid blue;
 }
 .but1{
   margin: 10px;
-  width: 90%;
+  width: 50%;
   height: 50px;
   background-color: blue;
   border: none;
   color: #fff;
 }
 .but2{
-  width: 90%;
+  width: 50%;
   height: 50px;
   background-color: skyblue;
   border: none;
   color:blue;
   margin-bottom: 10px;
-}  
+}
+  
 .slide img{
   width: 100%;
   height:300px;
@@ -1056,7 +1089,8 @@ form{
   position: relative;
   right: 18%;
   color: blue;
-  top:48%;
+  bottom: 30%;
+  margin-top: 1%;
 }
 .lop {
   color: blue;
@@ -1076,6 +1110,14 @@ form{
   box-shadow: 10%;
   height: 30%;
 }
+.desktop-view {
+  display: block; /* Or any other appropriate styling */
+}
+
+/* Styles for mobile view */
+.mobile-view {
+  display: none; /* Initially hide for desktop */
+}
 .but{
   width: 85%;
   height: 50px;
@@ -1089,6 +1131,13 @@ form{
   .slide-container{
     margin:20px;
     height: 200px;
+  }
+  .desktop-view {
+    display: none; /* Hide for mobile */
+  }
+
+  .mobile-view {
+    display: block; /* Show for mobile */
   }
   .each-slide-effect {
     display: inline-block;
@@ -1188,6 +1237,7 @@ form{
     right: 18%;
     color: blue;
     top:48%;
+    margin-top: 5%;
   }
   .lop {
     color: blue;
@@ -1557,6 +1607,7 @@ form{
   }
   .nav-menu-item{
     width:100%;
+    padding-top: 17%;
   }
   /* transact */
   .tl{
@@ -2080,12 +2131,13 @@ form{
   }
   .spt{
     border: 1px solid gainsboro;
-    margin:2% 9%;
+    margin:2% 5%;
     border-radius: 14px;
     padding:5% 3% 4% 5%;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
     background-color: rgb(136, 205, 233);
     font-size: 13px;
+    
   }
   .wad{
     height: 25px;
@@ -2125,7 +2177,7 @@ form{
   .bfle{
     display: flex;
     gap: 145px;
-    margin: 0;
+    
   }
   .h2{
     color:#fff;
@@ -2141,7 +2193,7 @@ form{
   .progress-bi {
     width: 100%;
     height: 6px;
-    background-color: blue;
+    background-color: rgb(11, 11, 128);
     margin-top: 5%;
     margin-bottom: 2%;
   }
@@ -2597,7 +2649,7 @@ form{
   }
   .progress-b {
     height: 100%;
-    background-color: lightblue;
+    background-color: rgb(149, 216, 238);
     transition: width 0.3s ease-in-out;
   }
   .cpp{
