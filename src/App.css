@@ -467,10 +467,9 @@ hr{
     padding: 4% 12%;
   }
   .me{
-    background-color: lightblue;
-    width: fit-content;
-    margin-left: 100px;
-  }
+    color: rgb(20, 75, 94);
+    font-weight: 700;
+    }
   .trmo{
     margin-top: 50%;
     width: 300px;
