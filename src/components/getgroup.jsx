@@ -8,7 +8,7 @@ import { BootstrapButton, ValidationTextField } from "./material";
   
 const GetGroup =()=>{
   const [info, setInfo] = useState([])
-  const [infos, setInfos] = useState([]);
+  const [fun, setFun] = useState('');
   const [nuban, setNuban] = useState('')
   const [amount, setAmount] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
@@ -70,6 +70,54 @@ const handleAmount=(event)=> {
   setAmount(event.target.value)
 }
 
+async function fproj() {
+  
+  let items ={refresh}
+   let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+       method: 'POST',
+       headers:{
+         'Content-Type': 'application/json',
+         'accept' : 'application/json'
+    },
+    body:JSON.stringify(items)
+   });
+   rep = await rep.json();
+   let bab = rep.access_token 
+   
+   console.warn( amount)
+   let item = { amount};
+ 
+
+ try {
+   let result = await fetch('https://api.prestigedelta.com/overdraftdrawdown/', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+       'accept': 'application/json',
+       'Authorization': `Bearer ${bab}`
+     },
+     body: JSON.stringify(item)
+   });
+
+   if (result.status === 400) {
+     const errorResult = await result.json();
+     setMessage(JSON.stringify(errorResult.message));
+   } else {
+      result =await result.json();
+      setFun((result))
+   }
+ } catch (error) {
+   // Handle fetch error
+   console.error(error);
+ }
+;
+}
+
+useEffect(() => {
+ if(amount !== ''){
+   fproj()
+ }
+}, [amount])
 
 
 const fetchDap = async () => {
@@ -230,37 +278,55 @@ let refresh = terms(tok)
     } 
 
   return(
-    <div style={{padding: '3%'}}>
+    <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}}>
        <Link to='/components/accounts'><i class="fa-solid fa-chevron-left bac"></i></Link>
       
             <h3>Send Money</h3>
+            {users.isMerchant === true ? (
+              <div>
+            {fun === ''? (null):
+            <p>Overdraft status: {(fun.status).toLocaleString()} <br/>{fun.message}</p>
+         }</div>): null}
           <form>
-       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Autocomplete
-      
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+       <Autocomplete
       id="combo-box-demo"
       value={selected}
       options={opt}
       onChange={handleBen}
-      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      sx={{
+        width: '100%', // Default width for mobile
+        maxWidth: '88%', // Max width for desktop
+        align: 'center',
+        '@media (min-width: 600px)': { // Adjustments for desktop view
+          width: '40%', // Decrease width for larger screens
+          maxWidth: 'none', // Remove maximum width for larger screens
+        },
+      }}
       renderInput={(params) => <TextField {...params} label="Select Beneficiary" />}
-        
     /> </div>
     <br/>
                  
      {selected === '' ?(
       <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Autocomplete
-      
+      <Autocomplete
       id="combo-box-demo"
       value={selectedOption}
       options={options}
       onChange={handleBank}
-      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      sx={{
+        width: '100%', // Default width for mobile
+        maxWidth: '88%', // Max width for desktop
+        align: 'center',
+        '@media (min-width: 600px)': { // Adjustments for desktop view
+          width: '40%', // Decrease width for larger screens
+          maxWidth: 'none', // Remove maximum width for larger screens
+        },
+      }}
       renderInput={(params) => <TextField {...params} label="Select Bank" />}
-        
-    /> </div>
+    />
+           </div>
     <br/>
     
     <ValidationTextField

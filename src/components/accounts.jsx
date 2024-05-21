@@ -214,6 +214,10 @@ const toggleHidden =()=>{
           const mata = fifo
              navigate('/components/getgroup', {state:{mata}})
         }
+
+        const airtime= ()=>{
+              navigate('/components/airtime')
+         }
        
 console.log(info)
 if(loading) {
@@ -239,6 +243,7 @@ return(
               <Stack direction='row'm={3} spacing={3} justify='center'>
                 <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
                <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Buy Items</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={airtime}>Buy Airtime</Button>
                </Stack>
        
               </div>
@@ -246,8 +251,7 @@ return(
            
             
            </ChakraProvider>
-           <Card m={5} backgroundColor='#1A83CC'><p style={{fontSize: '12px',color:'#fff', padding: '2%'}}>At the end of the day, funds will be moved to sub-accounts. If you are yet to create a sub-account, kindly click on the sub-account button located on the menu page</p></Card>
-           <p className='l'>RECENT TRANSACTIONS</p>
+            <p className='l'>RECENT TRANSACTIONS</p>
               <p className='ad'>No Transaction Yet</p>
 
          
@@ -257,7 +261,7 @@ return(
       <div>
       <ChakraProvider>
       <Nav />
-      
+      <div className='mobile-view'>
              <div className="dash">
                 <h3 className="h1">Collection Account</h3>
                 <p className='dp'>Total Balance</p>
@@ -265,8 +269,9 @@ return(
                 <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
                 <div >
                 <Stack direction='row'm={3} spacing={3} justify='center'>
-               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
                <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Buy Items</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={airtime}>Airtime</Button>
                </Stack>
                 </div>
              </div>
@@ -325,6 +330,78 @@ return(
 </TabPanel>
 </TabPanels>
                 </Tabs>
+                </div>
+                <div className='desktop-view'>
+                <div className='content'>
+                <div className="dash">
+                <h3 className="h1">Collection Account</h3>
+                <p className='dp'>Total Balance</p>
+                { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
+                <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
+                <div >
+                <Stack direction='row'm={3} spacing={3} justify='center'>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Buy Items</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={airtime}>Buy Airtime</Button>
+               </Stack>
+                </div>
+             </div>
+             
+               <Tabs isFitted variant='enclosed'>
+<TabList mb='1em'>
+    <Tab>Activity </Tab>
+    <Tab>Cash Flow</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel p={0}>
+               
+    <Stack direction='row' spacing={1} justify='center' >
+<div>
+         <Heading fontSize='12px'>Start Date</Heading>
+        <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
+        </div> 
+        <div>
+        <Heading fontSize='12px'>End Date</Heading>
+        <Input placeholder='Date' size='md' defaultValue={new Date().toISOString().slice(0, 10)} type='date' onChange={conc} width={173} ml={2}/><br/><br/>
+        </div></Stack> 
+        <Button colorScheme='blue' variant='outline' 
+         w='230px' onClick={() => Infow()}>Filter</Button>
+        {info.transactions.map((obj, index) => 
+          <Card m={3} backgroundColor='#F0F8FF'>
+                  <div className='td'  onClick={() => receipt(index)}>
+                  <div className='tl'>
+                       <p key={index}>{obj.classification}</p>
+                       <Heading fontSize='15px' key={index}>₦{(obj.amount).toLocaleString('en-US')}</Heading>
+                  </div>
+                  <div className='tg'>
+                       <p  key={index}>{obj.status}</p>
+                       <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                  </div>
+                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR' ? (
+                       <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
+                  <div ><i class="fa-solid fa-file-export"></i></div>    
+                  </div>
+               </Card>)}
+         </TabPanel>
+<TabPanel>
+<Card justify='center' ml='40px' backgroundColor='#9fc5e8' w='250px' p={2}>
+               <Stack direction='row' gap='50px' spacing={5} justify='center'>
+                 <Stack direction='column'  spacing={2} >
+                  <Heading fontSize='15px' textAlign='center'>Inflow</Heading>
+                  <p>₦{(info.inflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 <Stack direction='column'>
+                  <Heading fontSize='15px'>Outflow</Heading>
+                  <p>₦{(info.outflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 </Stack>
+             </Card>
+           
+ 
+</TabPanel>
+</TabPanels>
+                </Tabs></div>
+                </div>
                 </ChakraProvider>               
       </div>
    )

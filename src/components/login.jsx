@@ -152,7 +152,7 @@ const LoginPage = () => {
       />
       
       { passwordType==="password"?
-             <i onClick={togglePassword} style={{marginTop: '5%'}} class="fa-regular fa-eye-slash ic" ></i> : <i style={{marginTop: '5%'}} class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
+             <i onClick={togglePassword} class="fa-regular fa-eye-slash ic" ></i> : <i  class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
             <br/><br/>
             <BootstrapButton variant="contained" type="submit" onClick={login} disableRipple>
                    Login

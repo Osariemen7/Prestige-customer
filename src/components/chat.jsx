@@ -22,8 +22,9 @@ const Chat = () => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(!isMenuOpen); // Toggle menu state
   };
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -243,39 +244,49 @@ console.log(selectedMessage)
     };
 
   return (
+    <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}}>
     <ChakraProvider>
      <Nav />
+     <div className='mobile-view'>
     <div className='fl'>
-    
-    <div className="menu-button" style={{margin:'0'}}>
-            <i   onClick={toggleMenu} class="fa-solid fa-square-caret-down"></i>
-            <Heading fontSize='14px'>Previous Chat</Heading></div>
-            </div>
-            
-<div className={`side-menu ${isMenuOpen ? 'open' : ''}`} >
-<ul className=''>
-<Heading fontSize='15px' color="white" mt={3}>Previous Chat</Heading>
-{mappedMessages.map((message, index) => (
-        <div key={index}>
-          <li
-            onClick={() => {
-        setSelectedMessage(message.conversation.slice().reverse());
-        setThread(message.thread_id); showRighbar(); setMessages([])
-      }}
-            style={{ cursor: 'pointer' }}
-          >
-            <p>{message.conversation[message.conversation.length - 1].message_value}</p>
-          </li>
+    <div className="menu-button" style={{ margin: '0' }} >
+        <i onClick={toggleMenu} className="fa-solid fa-square-caret-down"></i>
+        <Heading fontSize="14px">Previous Chat</Heading>
+      </div>
+
+      {/* Side Menu */}
+      {isMenuOpen && (
+        <div className="slide-in-menu">
+          <ul>
+            <Heading fontSize="15px" color="white" mt={3}>
+              Previous Chat
+            </Heading>
+            {mappedMessages.map((message, index) => (
+              <div key={index}>
+                <li
+                  onClick={() => {
+                    setSelectedMessage(message.conversation.slice().reverse());
+                    setThread(message.thread_id);
+                    showRighbar();
+                    setMessages([]);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <p>{message.conversation[message.conversation.length - 1].message_value}</p>
+                </li>
+              </div>
+            ))}
+          </ul>
         </div>
-      ))}</ul>
+      )}
 </div>
     <div className="App">
       <div className="chat-container">
       
       <Heading fontSize='18px'>Business Assistant for {info[0].business_name}</Heading>
-      <Text fontSize='14px' p={3}>Hi {info[0].owner_name}, I am your assistant!<br/> Ask me a question.</Text>
+      <Text fontSize='14px' p={3}>Hi {info[0].owner_name}, I am your business assistant!<br/> Ask me any question about your business</Text>
       <Text fontSize='14px' m={2}>once you have reached the allotted number of free responses, you will be charged ₦75 per response</Text>
-      <Card m='19px' backgroundColor='white' p={3}>
+      <Card m='19px' backgroundColor='#F0F8FF' p={3}>
       {selectedMessage && (
         <div>
           {selectedMessage.map((message, index) => (
@@ -358,8 +369,136 @@ console.log(selectedMessage)
        
           </div>
       </div>
+      </div>
+    </div>
+    <div className='desktop-view'>
+      <div className='content'>
+      <div className='fl'>
+    <div className="menu-button" style={{ margin: '0' }} >
+        <i onClick={toggleMenu} className="fa-solid fa-square-caret-down"></i>
+        <Heading fontSize="14px">Previous Chat</Heading>
+      </div>
+
+      {/* Side Menu */}
+      {isMenuOpen && (
+        <div className="slide-in-menu">
+          <ul>
+            <Heading fontSize="15px" color="white" mt={3}>
+              Previous Chat
+            </Heading>
+            {mappedMessages.map((message, index) => (
+              <div key={index}>
+                <li
+                  onClick={() => {
+                    setSelectedMessage(message.conversation.slice().reverse());
+                    setThread(message.thread_id);
+                    showRighbar();
+                    setMessages([]);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <p>{message.conversation[message.conversation.length - 1].message_value}</p>
+                </li>
+              </div>
+            ))}
+          </ul>
+        </div>
+      )}
+</div>
+    <div className="App">
+      <div className="chat-container">
+      
+      <Heading fontSize='18px'>Business Assistant for {info[0].business_name}</Heading>
+      <Text fontSize='14px' p={3}>Hi {info[0].owner_name}, I am your business assistant!<br/> Ask me any question about your business</Text>
+      <Text fontSize='14px' m={2}>once you have reached the allotted number of free responses, you will be charged ₦75 per response</Text>
+      <Card m='19px' backgroundColor='#F0F8FF' p={3}>
+      {selectedMessage && (
+        <div>
+          {selectedMessage.map((message, index) => (
+            <div
+              key={index}
+              style={{
+                justifyContent: message.role === 'user' ? 'right' : 'left',
+              }}
+            >
+              <div
+                className={`message ${message.role}`}
+                style={{ textAlign: message.role === 'user' ? 'right' : 'left',
+                  backgroundColor: message.role === 'user' ? '#5cb85c' : '#337ab7',
+                  color: 'white',
+                  maxWidth: 'fit-content',
+                  borderRadius: '5px',
+                  padding: '5px',
+                  margin: '8px',
+                  marginLeft: message.role === 'user' ? 'auto' : '0',
+                  marginRight: message.role === 'user' ? '0' : 'auto',
+                  justifySelf: message.role === 'user' ? 'flex-end' : 'flex-start',
+                }}
+              >
+                <Text className="message-content">{message.message_value}</Text>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    
+        <div   >
+        
+         {messages.map((message, index) => (
+      <div
+        key={index}
+        style={{
+          justifyContent: message.sender === 'user' ? 'right' : 'left',
+        }}
+      >
+        {formatMessage(message.text).map((formattedSentence, sentenceIndex) => (
+          <div
+   key={sentenceIndex}
+            className={`message ${message.sender}`}
+            style={{
+              textAlign: message.sender === 'user' ? 'right' : 'left',
+              backgroundColor: message.sender === 'user' ? '#5cb85c' : '#337ab7',
+              color: 'white',
+              maxWidth: 'fit-content',
+              borderRadius: '5px',
+              padding: '5px',
+              margin: '8px',
+              marginLeft: message.sender === 'user' ? 'auto' : '0',
+              marginRight: message.sender === 'user' ? '0' : 'auto',
+              justifySelf: message.sender === 'user' ? 'flex-end' : 'flex-start',
+            }}
+          >
+            <Text className="message-content" dangerouslySetInnerHTML={{ __html: formattedSentence }} />
+          </div>
+        ))}
+      </div>
+    ))}
+{isload && (
+      // Show 'loading...' only for incoming assistant messages
+      <Skeleton  height="15px" mb="2" />
+    ) }
+        </div>   
+    </Card>
+        
+    <div className="">
+        <Input
+          mt='12px'
+          ml='5px'
+           w='220px'
+            type="text"
+            placeholder="Type a message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <Button mb='6px' onClick={send}  colorScheme='blue' variant='solid' >Send</Button>
+       
+          </div>
+      </div>
+      </div>
+      </div>
     </div>
     </ChakraProvider>
+    </div>
   );
 }
  

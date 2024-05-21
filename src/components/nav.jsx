@@ -23,6 +23,7 @@ const navigate = useNavigate()
   
   return(
     <div>
+    <div className='mobile-view'>
         <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='nav-menu-item'>
@@ -45,6 +46,12 @@ const navigate = useNavigate()
                       <p className='dfp'>Overdraft</p></Link>
                     </li>  
                     <li className='nav-list'>
+            <Link to='/components/expense' className='nav-text'>
+            <i class="fa-solid fa-chart-line"></i>
+              <p className='dfp'>Expense</p>
+            </Link>
+          </li>
+                    <li className='nav-list'>
             <Link to='/components/support' className='nav-text'>
             <i class="fa-solid fa-phone"></i>
               <p className='dfp'>Support</p>
@@ -65,7 +72,53 @@ const navigate = useNavigate()
           </li>
                 </ul>
             </nav>
-      
+            </div>
+            <div className='desktop-view'>
+        
+            <nav className='sidebar'>
+            <ul className='nav-menu-item'>
+                    
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet"></i>
+                      <p className='dfp'>Home</p></Link>
+                    </li>
+                      
+                    
+                    <li className='nav-list'>
+                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
+                  <p className='dfp'>Assistant</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/overdraft' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Overdraft</p></Link>
+                    </li>  
+                    <li className='nav-list'>
+            <Link to='/components/expense' className='nav-text'>
+            <i class="fa-solid fa-chart-line"></i>
+              <p className='dfp'>Expense</p>
+            </Link>
+          </li>
+                    <li className='nav-list'>
+            <Link to='/components/support' className='nav-text'>
+            <i class="fa-solid fa-phone"></i>
+              <p className='dfp'>Support</p>
+            </Link>
+          </li>
+          <li className='nav-list'>
+            <Link to='/components/referral' className='nav-text'>
+            <i class="fa-solid fa-user-plus"></i>
+              <p className='dfp'>Referral</p>
+            </Link>
+          </li>
+          <li className='nav-list'>
+            <Link to='/components/login' className='nav-text'>
+              <i className="fa-solid fa-share"></i>
+              <p className='dfp'>Log Out</p>
+            </Link>
+          </li>
+                </ul>
+            </nav>
+            </div>
     </div>
   )
 }

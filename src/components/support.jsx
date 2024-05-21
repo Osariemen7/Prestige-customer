@@ -19,6 +19,7 @@ const Support=()=>{
         <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}}>
         <Nav />
           <ChakraProvider>
+          <div className='mobile-view'>
           <Heading fontSize='15px' textAlign='left' marginLeft='7%' marginTop='2%'>Hi {tok.user.first_name} how can we help you?</Heading>
            
             <br/>
@@ -27,6 +28,19 @@ const Support=()=>{
           <p>Need help  with your account, send an email to <span style={{fontWeight: 'bold'}}>support@prestigefinance.co</span></p>
           <br/><p>or Call your account manager on<br/><span style={{fontWeight: 'bold'}}> 0706 567 5105</span> </p>
           </Card>
+          </div>
+          <div className='desktop-view'>
+          <div className='content'>
+          <Heading fontSize='15px' textAlign='left' marginLeft='7%' marginTop='2%'>Hi {tok.user.first_name} how can we help you?</Heading>
+           
+           <br/>
+           <Card m='5%' backgroundColor='#008080' p='3%' color='#fff'>
+           <Heading fontSize='18px' mb='3%'>Support and Assistance</Heading>
+         <p>Need help  with your account, send an email to <span style={{fontWeight: 'bold'}}>support@prestigefinance.co</span></p>
+         <br/><p>or Call your account manager on<br/><span style={{fontWeight: 'bold'}}> 0706 567 5104</span> </p>
+         </Card>
+          </div>
+          </div>
             </ChakraProvider> 
            
         </div>
