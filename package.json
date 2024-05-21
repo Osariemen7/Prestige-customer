@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bubblewrap/cli": "^1.20.0",
+    "@bubblewrap/core": "^1.21.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -12,12 +14,15 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "bubblewrap": "^0.2.0",
+    "chart.js": "^4.4.2",
     "chartjs-plugin-datalabels": "^2.2.0",
     "downloadjs": "^1.4.7",
     "framer-motion": "^11.1.2",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-modal": "^3.16.1",
@@ -52,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gradle": "^1.2.4"
   }
 }
