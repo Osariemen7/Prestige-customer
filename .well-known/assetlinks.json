@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.prestigepay.prestigefinance",
+      "sha256_cert_fingerprints":
+        ["AD:55:9E:BD:86:E7:B9:6C:E7:A2:59:74:D2:08:01:A5:EC:0B:70:47:31:2B:5C:46:FB:EB:12:00:0A:4E:ED:55"]
+    }
+  }
+]
