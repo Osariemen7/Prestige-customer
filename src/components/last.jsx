@@ -89,7 +89,7 @@ const fetchDa = async () => {
           let bvn = ans.pers.bvn
           let state = ans.state
           let city = ans.city
-          let is_customer = true
+          let is_customer = 'user'
           let business_name = ''
           let business_type = ''
           let account_name = users.account_name
