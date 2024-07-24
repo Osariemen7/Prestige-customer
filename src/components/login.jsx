@@ -89,7 +89,7 @@ const LoginPage = () => {
           navigate('/components/loyalty')
         }else {
           localStorage.setItem('user-info', JSON.stringify(result));
-          navigate('/components/accounts');
+          navigate('/components/map');
         }
       }
     }

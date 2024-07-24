@@ -190,11 +190,8 @@ let refresh = terms(tok)
               <p>{meal.nuban}</p>
               
            </div>
-           <div className="vasa1">
-               <p>Amount</p>
-               <div><p>₦{meal.amount}</p></div>
-            
-           </div>
+           <br/>
+           <hr style={{border:'1px, dotted, lightblue'}}/>
            <div className="vasa2">
                <p>Bank</p>
                <p>{meal.selectedOption.label}</p>

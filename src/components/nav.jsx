@@ -7,13 +7,10 @@ import { Button } from '@chakra-ui/react';
 export const Nav =()=> {
 const navigate = useNavigate()
   const [sidebar, setSidebar] = useState('')
-  const sidebarRef = useRef(null);
   const [showMoreItems, setShowMoreItems] = useState(false);
+  const sidebarRef = useRef(null);
+  
 
-  const showMore = () => {
-    setShowMoreItems(!showMoreItems);
-  };
-  const showSidebar = () => setSidebar(!sidebar)
   const handleClickOutside = (event) => {
     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       setSidebar(false);
@@ -27,6 +24,10 @@ const navigate = useNavigate()
     };
   }, []);
 
+  const showMore = () => {
+    setShowMoreItems(!showMoreItems);
+  };
+  const showSidebar = () => setSidebar(!sidebar)
   let tok= JSON.parse(localStorage.getItem("user-info"));
    
   let sub_account = tok.user.has_default_sub_accounts
@@ -38,60 +39,41 @@ const navigate = useNavigate()
   return(
     <div>
     <div className='mobile-view'>
-    <div className='fid'>
-  
-        <i onClick={showSidebar} class="fa-solid fa-bars ac"></i></div>
-            <br/><br/><nav  ref={sidebarRef} className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
+            <nav  ref={sidebarRef} className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='nav-menu-item'>
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
+                    
                     <li className='nav-list'>
-                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-wallet home"></i>
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
                       <p className='dfp'>Account</p></Link>
                     </li>
-                    { tok.user.is_customer === 'owner' ?
                     <li className='nav-list'>
-                    <div onClick={subAccount} className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Sub-Account</p></div>
-                    </li>  : null }
-                    <li className='nav-list'>
-                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                      <p className='dfp'>Inventory</p></Link>
+                    <Link to='/components/order' className='nav-text'><i class="fa-solid fa-list-check"></i>
+                      <p className='dfp'>Order List</p></Link>
                     </li>
-                    <li className='nav-list'>
-                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
-                      <p className='dfp'>Customers</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
-                    <p className='dfp'>Analytics</p></Link>
-                    </li>
-                   
+                    
                     <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
                     </li>
-                    { tok.user.is_customer === 'owner' ?
                     <li className='nav-list'>
-                    <Link to='/components/employee' className='nav-text'><i class="fa-solid fa-users-line"></i>
-                      <p className='dfp'>Employees <br/>Management</p></Link>
-                    </li>  : null }
-
-                    <li className='nav-list' onClick={showMore}>
-        <Link className='nav-text'>
-        <i class="fa-solid fa-caret-down"></i>
-        <p className='dfp'>More</p>
-        </Link>
-      </li>
-      
-      {showMoreItems && (
-        <div>
-        <li className='nav-list'>
+                    <Link to='/components/overdraft' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Overdraft</p></Link>
+                    </li>  
+                    <li className='nav-list'>
+            <Link to='/components/expense' className='nav-text'>
+            <i class="fa-solid fa-chart-line"></i>
+              <p className='dfp'>Expense</p>
+            </Link>
+          </li>
+                    <li className='nav-list'>
             <Link to='/components/support' className='nav-text'>
             <i class="fa-solid fa-phone"></i>
               <p className='dfp'>Support</p>
@@ -110,62 +92,41 @@ const navigate = useNavigate()
               <p className='dfp'>Log Out</p>
             </Link>
           </li>
-        </div>
-      )} 
                 </ul>
             </nav>
             </div>
             <div className='desktop-view'>
-            
+        
             <nav className='sidebar'>
             <ul className='nav-menu-item'>
-                   
+                    
                     <li className='nav-list'>
-                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-wallet"></i>
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet "></i>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
                       <p className='dfp'>Account</p></Link>
-                    </li>
-                    { tok.user.is_customer === 'owner' ?
+                    </li>  
                     <li className='nav-list'>
-                    <div onClick={subAccount} className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Sub-Account</p></div>
-                    </li>  : null }
-                    <li className='nav-list'>
-                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                      <p className='dfp'>Inventory</p></Link>
+                    <Link to='/components/order' className='nav-text'><i class="fa-solid fa-list-check"></i>
+                      <p className='dfp'>Order List</p></Link>
                     </li>
-                    <li className='nav-list'>
-                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
-                      <p className='dfp'>Customers</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
-                    <p className='dfp'>Analytics</p></Link>
-                    </li>
-                   
                     <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
                     </li>
-                    { tok.user.is_customer === 'owner' ?
                     <li className='nav-list'>
-                    <li className='nav-text'> <Link to='/components/employee'><i class="fa-solid fa-users-line"></i>
-                      <p className='dfp'>Employee<br/> Management</p></Link></li>
-                    </li>  : null } 
-
-                    <li className='nav-list' onClick={showMore}>
-        <Link className='nav-text'>
-        <i class="fa-solid fa-caret-down"></i>
-        <p className='dfp'>More</p>
-        </Link>
-      </li>
-      
-      {showMoreItems && (
-        <div>
-        <li className='nav-list'>
+                    <Link to='/components/overdraft' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Overdraft</p></Link>
+                    </li>  
+                    <li className='nav-list'>
+            <Link to='/components/expense' className='nav-text'>
+            <i class="fa-solid fa-chart-line"></i>
+              <p className='dfp'>Expense</p>
+            </Link>
+          </li>
+                    <li className='nav-list'>
             <Link to='/components/support' className='nav-text'>
             <i class="fa-solid fa-phone"></i>
               <p className='dfp'>Support</p>
@@ -177,15 +138,12 @@ const navigate = useNavigate()
               <p className='dfp'>Referral</p>
             </Link>
           </li>
-
           <li className='nav-list'>
             <Link to='/components/login' className='nav-text'>
               <i className="fa-solid fa-share"></i>
               <p className='dfp'>Log Out</p>
             </Link>
           </li>
-        </div>
-      )} 
                 </ul>
             </nav>
             </div>
@@ -213,28 +171,5 @@ export const ShareApp = ({ inviteCode }) => {
       </ChakraProvider>
     );
   };
-
-  export const InviteApp = ({ inviteCode, numb }) => {
-    const handleShares = () => {
-      if (navigator.share) {
-        navigator.share({
-          title: 'Prestige Finance',
-          text: `Sign up on prestige finance with this number ${numb}!, use invite code ${inviteCode}`,
-          url: 'https://play.google.com/store/apps/details?id=co.prestigefinance.biz',
-        })
-          .then(() => console.log('App shared successfully.'))
-          .catch((error) => console.log('Error sharing app:', error));
-      } else {
-        console.log('Web Share API is not supported in this browser.');
-      }
-    };;
-  
-    return (
-        <ChakraProvider>
-      <Button colorScheme='blue' w='25%'  onClick={handleShares}>Share</Button>
-      </ChakraProvider>
-    );
-  };
-
   
   
