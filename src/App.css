@@ -449,21 +449,18 @@ hr{
     display: flex;
     gap:50px;
     height:25px;
-    border-bottom: 1px solid gainsboro;
     padding: 4% 12%;
   }
   .vasa1{
     display: flex;
     gap:120px;
     height:25px;
-    border-bottom: 1px solid gainsboro;
     padding: 4% 12%;
   }
   .vasa2{
     display: flex;
     gap:100px;
     height:25px;
-    border-bottom: 1px solid gainsboro;
     padding: 4% 12%;
   }
   .me{
@@ -1741,21 +1738,18 @@ form{
       display: flex;
       gap: 20%;
       height:25px;
-      border-bottom: 1px solid gainsboro;
       padding: 4% 12%;
     }
     .vasa1{
       display: flex;
       gap:45%;
       height:25px;
-      border-bottom: 1px solid gainsboro;
       padding: 4% 12%;
     }
     .vasa2{
       display: flex;
       gap:45%;
       height:25px;
-      border-bottom: 1px solid gainsboro;
       padding: 4% 12%;
     }
     .me{
@@ -2398,7 +2392,6 @@ form{
         gap: 20%;
         height:22px;
         align-items: center;
-        border-bottom: 1px solid gainsboro;
         padding: 2% 5%;
         font-size: 13px;
   }

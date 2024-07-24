@@ -30,6 +30,10 @@ import Support from './components/support.jsx';
 import BarChart from './components/test.js';
 import Airtime from './components/airtime.jsx';
 import Expense from './components/expense.jsx';
+import Order from './components/order.jsx';
+import Shop from './components/shop.jsx';
+import Checkout from './components/checkout.jsx';
+import Map from './components/map.jsx'
 function App() {
   const [loading, setLoading] = useState(true)
   
@@ -72,6 +76,10 @@ function App() {
         <Route path='/components/test' element={<BarChart/>} />
         <Route path='/components/airtime' element={<Airtime />} />
         <Route path='/components/expense' element={<Expense />} />
+        <Route path='/components/order' element={<Order />} />
+        <Route path='/components/shop' element={<Shop />} />
+        <Route path='/components/checkout' element={<Checkout />} />
+        <Route path='/components/map' element={<Map />} />
 
      </Routes>
       
