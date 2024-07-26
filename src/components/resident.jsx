@@ -98,7 +98,7 @@ const Resident =()=>{
           setMessage('All Fields must be Filled')
         }
         else { 
-        navigate('/components/rebout', {state:{data}})
+        navigate('/components/last', {state:{data}})
       }}
     return(
 
