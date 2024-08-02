@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import {
   ChakraProvider,
   Card,
@@ -12,11 +13,21 @@ import {
   Radio,
   RadioGroup,
   IconButton,
-  Box, Spinner
+  Box,  useDisclosure, Spinner, Textarea 
 } from '@chakra-ui/react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { Typography, TextField,} from '@mui/material';
 import { BootstrapButton, ValidationTextField} from './material.js'
+import good from './images/good.svg';
 
 
 const Checkout = () => {
@@ -24,7 +35,10 @@ const Checkout = () => {
  const [buttonVisible, setButtonVisible] = useState(true);
  const [pick_up, setTime] = useState('')
  const [sale_id, setSales] = useState('')
+ const [fun, setFun] = useState('')
+ const [inputV, setInputV] = useState('')
   const location = useLocation();
+  const { isOpen, onOpen,  onClose } = useDisclosure()
   const initialItems = location.state.data.productsToCheckout;
   const business = location.state.data.store
   const [selectedProducts, setSelectedProducts] = useState(
@@ -33,6 +47,13 @@ const Checkout = () => {
       return acc;
     }, {})
   );
+  const [value, setValue] = useState('')
+
+  let handleInputChange = (e) => {
+    let inputValue = e.target.value
+    setValue(inputValue)
+  }
+
   const handleClick = () => {
     // When the button is clicked, setButtonVisible to false
     setButtonVisible(false);
@@ -107,7 +128,7 @@ const handleDob =(event)=>{
      console.error(error);
    };
  }
- async function otp() {
+ async function fproj() {
           
     let items ={refresh}
      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -120,11 +141,12 @@ const handleDob =(event)=>{
      });
      rep = await rep.json();
      let bab = rep.access_token 
+     let rating = inputV
+     let review = value
      
-     
-     let ite = { sale_id };
+     let ite = { sale_id, rating, review };
    try {
-     let result = await fetch(`https://api.prestigedelta.com/businessbopis/`, {
+     let result = await fetch(`https://api.prestigedelta.com/ratings/`, {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',
@@ -138,7 +160,7 @@ const handleDob =(event)=>{
        setMessag(JSON.stringify(errorResult));
      } else {
         result =await result.json();
-       setMessag('Get OTP from the order page, which is to be given to the vendor upon delivery!')
+       setFun(result)
        
         } 
    } catch (error) {
@@ -146,6 +168,56 @@ const handleDob =(event)=>{
      console.error(error);
    };
  }
+
+ const optio = [0, 1, 2, 3, 4, 5];
+    const opt = optio.map((p) => ({
+      label: p,
+      value: p,
+    }));
+
+ const handleInputCha = (inputV) => {
+  setInputV(inputV)
+}
+ async function otp() {
+          
+  let items ={refresh}
+   let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+       method: 'POST',
+       headers:{
+         'Content-Type': 'application/json',
+         'accept' : 'application/json'
+    },
+    body:JSON.stringify(items)
+   });
+   rep = await rep.json();
+   let bab = rep.access_token 
+   
+   
+   let ite = { sale_id };
+ try {
+   let result = await fetch(`https://api.prestigedelta.com/businessbopis/`, {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+       'accept': 'application/json',
+       'Authorization': `Bearer ${bab}`
+     },
+     body: JSON.stringify(ite)
+   });
+         if (result.status !== 200) {
+     const errorResult = await result.json();
+     setMessag(JSON.stringify(errorResult));
+   } else {
+      result =await result.json();
+     setMessag('Get OTP from the order list page, which is to be given to the vendor upon delivery!')
+     
+      } 
+ } catch (error) {
+   // Handle fetch error
+   console.error(error);
+ };
+}
+
 
  useEffect(() => {
     if (sale_id !== '') {
@@ -256,6 +328,44 @@ const handleDob =(event)=>{
         )}
         {!buttonVisible && <Spinner/>}
         <Text>{messag}</Text>
+        {sale_id ? (<Button colorScheme='blue' onClick={onOpen}>Review Merchant</Button>): null}
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+          
+            <ModalHeader>Review and Rate</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+      {fun === '' ? (
+      <div>
+      <Textarea
+        value={value}
+        onChange={handleInputChange}
+        placeholder='Write a review'
+        size='sm'
+      />
+       <Select
+        onChange={handleInputCha}
+        className="pne"
+        placeholder="Select a Rating"
+        options={opt}
+        value={inputV} /><br/>
+       <br/>   <br/> {fun ? <p>{fun}</p> : null} 
+                {buttonVisible && (  <Button  colorScheme='blue' variant='solid' onClick={fproj}>Submit</Button> 
+                )}
+      {!buttonVisible && <p>Processing...</p>}
+            
+            </div>) :
+            <div>
+          
+          <img className='goo' src={good} alt="" />
+          <Heading fontSize='14px' className="hoo">Review and Rating Submitted!</Heading>  
+      </div>}
+      </ModalBody>
+              </ModalContent>
+      
+            </Modal>
       </ChakraProvider>
     </div>
   );
