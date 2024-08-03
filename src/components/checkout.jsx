@@ -23,9 +23,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Input
 } from '@chakra-ui/react'
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import { Typography, TextField,} from '@mui/material';
 import { BootstrapButton, ValidationTextField} from './material.js'
 import good from './images/good.svg';
 
@@ -303,27 +303,19 @@ const handleDob =(event)=>{
                   size="sm"
                 />
               </Stack>
-              <Typography textAlign='left' marginLeft='7%'>Set time to pick up goods</Typography>         
-    <ValidationTextField
+              <Text ml='7%'>Set time to pick up goods</Text>         
+    <Input
            onChange={handleDob}
         label=""
         type='date'
-        required
-        variant="outlined"
-        id="validation-outlined-input"
+        width={273}
+      
       /> </CardBody>
+       <Heading fontSize='16px'>Total: ₦{(parseInt(calculateTotal().toFixed(2))).toLocaleString('en-US')}</Heading>
+       
           </Card>
         ))} 
-        <Typography textAlign='left' marginLeft='7%'>Set time to pick up goods</Typography>         
-    <ValidationTextField
-           onChange={handleDob}
-        label=""
-        type='date'
-        required
-        variant="outlined"
-        id="validation-outlined-input"
-      />
-        <Heading fontSize='16px'>Total: ₦{(parseInt(calculateTotal().toFixed(2))).toLocaleString('en-US')}</Heading>
+       
        <br/> {buttonVisible && ( <Button colorScheme='green' onClick={aprod}>Purchase</Button>
         )}
         {!buttonVisible && <Spinner/>}

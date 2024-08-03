@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleMap, LoadScript, Marker, InfoWindow, DirectionsRenderer } from '@react-google-maps/api';
 import {
@@ -12,16 +12,13 @@ import {
   useDisclosure,
   Input,
   Button,
-  Heading,
   Stack,
 } from '@chakra-ui/react';
-import { Nav } from './nav.jsx'
 
 const containerStyle = {
   width: '100%',
   height: '100vh'
 };
-
 
 const defaultCenter = {
   lat: -34.397,
@@ -39,15 +36,40 @@ const Map = () => {
   const [directions, setDirections] = useState(null);
   const navigate = useNavigate();
 
-  const transformData = (data) => {
-    return data.map((item, index) => ({
-      id: index + 1, // Assuming the index can serve as a unique id
-      name: item.business_name,
-      icon: 'src/components/images/cart-shopping-solid.svg', // Replace with actual icon URL if available in your data
-      location: { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) },
-      pack_price: parseFloat(item.pack_price),
-      unit_price: parseFloat(item.unit_price)
-    }));
+  const transformData = async (data) => {
+    const geocodedPlaces = await Promise.all(
+      data.map(async (item, index) => {
+        if (item.latitude && item.longitude) {
+          return {
+            id: index + 1,
+            name: item.business_name,
+            icon: 'https://myprest.s3.eu-west-2.amazonaws.com/shopping-cart_7835563.png', // Standard Google Maps cart-like icon
+            location: { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) },
+            pack_price: parseFloat(item.pack_price),
+            unit_price: parseFloat(item.unit_price),
+            business_id: item.business_id
+          };
+        } else {
+          const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(item.address)}&key=YOUR_GOOGLE_MAPS_API_KEY`);
+          const geocodeData = await response.json();
+          if (geocodeData.results.length > 0) {
+            const { lat, lng } = geocodeData.results[0].geometry.location;
+            return {
+              id: index + 1,
+              name: item.business_name,
+              icon: 'http://maps.google.com/mapfiles/kml/pal4/icon62.png', // Standard Google Maps cart-like icon
+              location: { lat, lng },
+              pack_price: parseFloat(item.pack_price),
+              unit_price: parseFloat(item.unit_price)
+            };
+          } else {
+            return null;
+          }
+        }
+      })
+    );
+
+    return geocodedPlaces.filter(place => place !== null);
   };
 
   const onLoad = useCallback(function callback(map) {
@@ -64,31 +86,21 @@ const Map = () => {
     }
   }, []);
 
-  const tok = JSON.parse(localStorage.getItem("user-info"));
-  const terms = (tok) => {
-    let refreshval;
-    if (tok === null || typeof tok === 'undefined') {
-      refreshval = 0;
-    } else {
-      refreshval = tok.refresh_token;
-    }
-    return refreshval;
-  };
-  const refresh = terms(tok);
-
   const onUnmount = useCallback(function callback(map) {
     setMap(null);
   }, []);
 
   const fetchPlaces = async () => {
-    let ite = { refresh };
+    let tok = JSON.parse(localStorage.getItem("user-info"));
+    let refresh = tok?.refresh_token ?? 0;
+
     let rep = await fetch('https://api.prestigedelta.com/refreshtoken/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json'
       },
-      body: JSON.stringify(ite)
+      body: JSON.stringify({ refresh })
     });
     rep = await rep.json();
     let bab = rep.access_token;
@@ -101,15 +113,14 @@ const Map = () => {
     });
     const data = await response.json();
     const filteredData = data.filter(place => place.latitude !== null && place.longitude !== null);
-    const transformedData = transformData(filteredData);
-    console.log('Transformed Data:', transformedData);
+    const transformedData = await transformData(filteredData);
     setPlaces(transformedData);
   };
-  
 
   const handleShop = (place) => {
     // Redirect to the shop page with place data
-    navigate('/components/shop', { state: {place } });
+    navigate('/components/shop', { state: { place } });
+     console.log(place)
   };
 
   const handleSearch = (event) => {
@@ -136,11 +147,27 @@ const Map = () => {
     );
   };
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentPosition({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error fetching the geolocation: ", error);
+        }
+      );
+    }
+  }, []);
+
   return (
     <ChakraProvider>
-    <Nav />
       <div>
-       
+        <Link to='/components/product'>
+          <i className="fa-solid fa-chevron-left bac"></i>
+        </Link>
+
         <LoadScript googleMapsApiKey="AIzaSyCP4llmkll6GKy5NZ9RdmR3-U5paXEi4ug" libraries={['places']}>
           <Button colorScheme='green' mb={2} onClick={onOpen}>Search Product</Button>
           <GoogleMap
@@ -161,7 +188,7 @@ const Map = () => {
                 key={index}
                 title={place.name}
                 icon={{
-                  url: place.icon, // Custom cart icon URL
+                  url: place.icon,
                   scaledSize: new window.google.maps.Size(32, 32) // Adjust size if needed
                 }}
                 position={place.location}

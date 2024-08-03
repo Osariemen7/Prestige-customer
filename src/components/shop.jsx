@@ -3,10 +3,12 @@ import {Link, useLocation, useNavigate} from 'react-router-dom'
 import {ChakraProvider, Card, Button, Box, Image, Stack, CardBody, Heading, Text } from '@chakra-ui/react';
 import { IconButton } from '@chakra-ui/react'
 import { AddIcon, MinusIcon } from '@chakra-ui/icons'; // Import the icons
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
 
 const Shop =() => {
 const [place, setPlaces] = useState('')
+const [ratings, setRatings] = useState('')
 const [loading, setLoading] = useState(true)
 const location = useLocation()
 const navigate = useNavigate()
@@ -76,11 +78,41 @@ const fetchPlaces = async () => {
     const data = await response.json();
     setPlaces(data);
     setLoading(false)
+    fetchRatings()
   };
   
   useEffect(() => {
     fetchPlaces()
   }, [])
+
+  const fetchRatings = async () => {
+    let ite = { refresh };
+    let rep = await fetch('https://api.prestigedelta.com/refreshtoken/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(ite)
+    });
+    rep = await rep.json();
+    let bab = rep.access_token;
+
+    const response = await fetch(`https://api.prestigedelta.com/ratings/?business_id=${store.business_id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${bab}`
+      }
+    });
+    const data = await response.json();
+    setRatings(data);
+  
+  };
+  
+  useEffect(() => {
+    if(place !== ''){
+    fetchRatings()}
+  }, [place])
   console.log(place)
 
   if(loading) {
@@ -98,8 +130,16 @@ return(
         <Heading fontSize='14px' color='darkgreen'>Checkout</Heading>
         <i className="fa-solid fa-cart-shopping"></i>
     </Box>
+    <Tabs isFitted variant='enclosed'>
+<TabList mb='1em'>
+    <Tab>Shop </Tab>
+    <Tab>Ratings and Reviews</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel p={0}>
+
     <div className="card-container">
-    {place[0].products.map((obj, index) => (
+    {place.products.map((obj, index) => (
         <Card key={index}
          onClick={() => toggleSelectProduct(obj)}
          className={`card ${selectedProducts[obj.id] ? 'selected' : ''}`}
@@ -151,6 +191,28 @@ return(
       ))}
       </div>
       <Button colorScheme='blue' onClick={goToCheckout} mt={4}>Proceed to Checkout</Button>
+      </TabPanel>
+      <TabPanel>
+      {ratings ?
+        <div className="reviews-container">
+      {ratings.map((review, index) => (
+        <div key={index} className="review-card">
+          <div className="review-rating">
+            Rating: {review.rating} / 5
+          </div>
+          <div className="review-text">
+            {review.review}
+          </div>
+          <div className="review-date">
+            Reviewed on: {new Date(review.created).toLocaleDateString()}
+          </div>
+        </div>
+      ))}
+    </div> : null }
+      </TabPanel>
+</TabPanels>
+                
+</Tabs>
     </ChakraProvider>
         
     </div>
