@@ -106,8 +106,8 @@ const fetchDa = async () => {
           let bab = rep.access_token
           
             setCreateanchoruser(create_anchor_user)
-            console.warn(gender, address, dob, is_customer, bvn, account_name, city, state, business_name, business_type, create_anchor_user, nuban, bank_code)
-            let item = {gender, address, dob,is_customer, bvn, account_name, city, state, business_name, business_type, create_anchor_user, nuban, bank_code};
+            console.warn(gender, address, dob, is_customer, bvn, account_name, city, state, create_anchor_user, nuban, bank_code)
+            let item = {gender, address, dob,is_customer, bvn, account_name, city, state, create_anchor_user, nuban, bank_code};
             let result = await fetch ('https://api.prestigedelta.com/updateuser/',{
                 method: 'POST',
                 headers:{
