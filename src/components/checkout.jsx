@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Select from 'react-select';
 import {
   ChakraProvider,
@@ -13,7 +13,14 @@ import {
   Radio,
   RadioGroup,
   IconButton,
-  Box,  useDisclosure, Spinner, Textarea 
+  Box,
+  useDisclosure,
+  Spinner,
+  Textarea,
+  Input,
+  HStack,
+  Grid,
+  GridItem
 } from '@chakra-ui/react';
 import {
   Modal,
@@ -22,209 +29,189 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  Input
-} from '@chakra-ui/react'
+  ModalCloseButton
+} from '@chakra-ui/react';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import { BootstrapButton, ValidationTextField} from './material.js'
 import good from './images/good.svg';
 
-
 const Checkout = () => {
- const [messag, setMessag] = useState('')
- const [buttonVisible, setButtonVisible] = useState(true);
- const [pick_up, setTime] = useState('')
- const [sale_id, setSales] = useState('')
- const [fun, setFun] = useState('')
- const [inputV, setInputV] = useState('')
+  const [message, setMessage] = useState('');
+  const [buttonVisible, setButtonVisible] = useState(true);
+  const [pickUpDate, setPickUpDate] = useState('');
+  const [pickUpTime, setPickUpTime] = useState('');
+  const [saleId, setSaleId] = useState('');
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState('');
   const location = useLocation();
-  const { isOpen, onOpen,  onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const initialItems = location.state.data.productsToCheckout;
-  const business = location.state.data.store
+  const business = location.state.data.store;
   const [selectedProducts, setSelectedProducts] = useState(
     initialItems.reduce((acc, item) => {
       acc[item.id] = { ...item, count: item.count || 1, priceType: 'Item' };
       return acc;
     }, {})
   );
-  const [value, setValue] = useState('')
 
-  let handleInputChange = (e) => {
-    let inputValue = e.target.value
-    setValue(inputValue)
-  }
+  const handleInputChange = (e) => {
+    setReview(e.target.value);
+  };
 
-  const handleClick = () => {
-    // When the button is clicked, setButtonVisible to false
+  const handlePickUpDateChange = (event) => {
+    setPickUpDate(event.target.value);
+  };
+
+  const handlePickUpTimeChange = (event) => {
+    setPickUpTime(event.target.value);
+  };
+
+  const handleButtonClick = () => {
     setButtonVisible(false);
     setTimeout(() => {
       setButtonVisible(true);
     }, 20000);
   };
-  
-  let tok= JSON.parse(localStorage.getItem("user-info"));
-const terms = (tok) => {
-  let refreshval;
-  if (tok === null || typeof tok === 'undefined') {
-    refreshval = 0;
-  } else {
-    refreshval = tok.refresh_token;
-  }
- 
-  return refreshval;
-};
-let refresh = terms(tok)
 
-const handleDob =(event)=>{
-    setTime(event.target.value)
-}
-  async function aprod() {
-     handleClick()     
-    let items ={refresh}
-     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-         method: 'POST',
-         headers:{
-           'Content-Type': 'application/json',
-           'accept' : 'application/json'
-      },
-      body:JSON.stringify(items)
-     });
-     rep = await rep.json();
-     let bab = rep.access_token 
-     let payment_method = "BOPIS";
-     let business_id = business.business_id;
-     let pick_up_time = (new Date(pick_up)).toLocaleString('en-GB');
-     
-     let products = Object.values(selectedProducts).map((product) => ({
-       name: product.name,
-       price: parseInt(product.price),
-       quantity: product.count,
-       quantity_type: product.priceType,  // Ensure this is correctly mapped to either 'Unit' or 'Pack'
-       pack_size: product.pack_size,
-       product_type: 'PRODUCT',
-     }));
- 
-     let ite = { payment_method, products, pick_up_time, business_id };
-   try {
-     let result = await fetch(`https://api.prestigedelta.com/bopis/`, {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         'accept': 'application/json',
-         'Authorization': `Bearer ${bab}`
-       },
-       body: JSON.stringify(ite)
-     });
-           if (result.status !== 200) {
-       const errorResult = await result.json();
-       setMessag(JSON.stringify(errorResult));
-     } else {
-        result =await result.json();
-       setMessag(JSON.stringify(result.message))
-       setSales(result)
-        } 
-   } catch (error) {
-     // Handle fetch error
-     console.error(error);
-   };
- }
- async function fproj() {
-          
-    let items ={refresh}
-     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-         method: 'POST',
-         headers:{
-           'Content-Type': 'application/json',
-           'accept' : 'application/json'
-      },
-      body:JSON.stringify(items)
-     });
-     rep = await rep.json();
-     let bab = rep.access_token 
-     let rating = inputV
-     let review = value
-     
-     let ite = { sale_id, rating, review };
-   try {
-     let result = await fetch(`https://api.prestigedelta.com/ratings/`, {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         'accept': 'application/json',
-         'Authorization': `Bearer ${bab}`
-       },
-       body: JSON.stringify(ite)
-     });
-           if (result.status !== 200) {
-       const errorResult = await result.json();
-       setMessag(JSON.stringify(errorResult));
-     } else {
-        result =await result.json();
-       setFun(result)
-       
-        } 
-   } catch (error) {
-     // Handle fetch error
-     console.error(error);
-   };
- }
+  let token = JSON.parse(localStorage.getItem("user-info"));
+  const refreshToken = (token) => token ? token.refresh_token : 0;
 
- const optio = [0, 1, 2, 3, 4, 5];
-    const opt = optio.map((p) => ({
-      label: p,
-      value: p,
+  const refresh = refreshToken(token);
+
+  const handlePurchase = async () => {
+    handleButtonClick();
+    let items = { refresh };
+    let response = await fetch('https://api.prestigedelta.com/refreshtoken/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(items)
+    });
+    let data = await response.json();
+    let accessToken = data.access_token;
+    let paymentMethod = "BOPIS";
+    let businessId = business.business_id;
+    // Format the pick-up date and time manually
+    const pickUpDateTime = new Date(`${pickUpDate}T${pickUpTime}`);
+    const formattedPickUpDateTime = `${pickUpDateTime.getDate().toString().padStart(2, '0')}/${(pickUpDateTime.getMonth() + 1).toString().padStart(2, '0')}/${pickUpDateTime.getFullYear()} ${pickUpDateTime.getHours().toString().padStart(2, '0')}:${pickUpDateTime.getMinutes().toString().padStart(2, '0')}`;
+    let products = Object.values(selectedProducts).map((product) => ({
+      name: product.name,
+      price: parseInt(product.price),
+      quantity: product.count,
+      quantity_type: product.priceType,
+      pack_size: product.pack_size,
+      product_type: 'PRODUCT',
     }));
 
- const handleInputCha = (inputV) => {
-  setInputV(inputV)
-}
- async function otp() {
-          
-  let items ={refresh}
-   let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-       method: 'POST',
-       headers:{
-         'Content-Type': 'application/json',
-         'accept' : 'application/json'
-    },
-    body:JSON.stringify(items)
-   });
-   rep = await rep.json();
-   let bab = rep.access_token 
-   
-   
-   let ite = { sale_id };
- try {
-   let result = await fetch(`https://api.prestigedelta.com/businessbopis/`, {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json',
-       'accept': 'application/json',
-       'Authorization': `Bearer ${bab}`
-     },
-     body: JSON.stringify(ite)
-   });
-         if (result.status !== 200) {
-     const errorResult = await result.json();
-     setMessag(JSON.stringify(errorResult));
-   } else {
-      result =await result.json();
-     setMessag('Get OTP from the order list page, which is to be given to the vendor upon delivery!')
-     
-      } 
- } catch (error) {
-   // Handle fetch error
-   console.error(error);
- };
-}
+    let payload = { payment_method: paymentMethod, products, pick_up_time: formattedPickUpDateTime, business_id: businessId };
 
+    try {
+      let result = await fetch('https://api.prestigedelta.com/bopis/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(payload)
+      });
 
- useEffect(() => {
-    if (sale_id !== '') {
-      otp();
+      if (result.status !== 200) {
+        const errorResult = await result.json();
+        setMessage(JSON.stringify(errorResult));
+      } else {
+        const successResult = await result.json();
+        setMessage(successResult.message);
+        setSaleId(successResult.sale_id);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  }, [sale_id]);
-  
+  };
+
+  console.log(business)
+  const handleReviewSubmit = async () => {
+    let items = { refresh };
+    let response = await fetch('https://api.prestigedelta.com/refreshtoken/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(items)
+    });
+    let data = await response.json();
+    let accessToken = data.access_token;
+
+    let payload = { sale_id: saleId, rating, review };
+
+    try {
+      let result = await fetch('https://api.prestigedelta.com/ratings/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (result.status !== 200) {
+        const errorResult = await result.json();
+        setMessage(JSON.stringify(errorResult));
+      } else {
+        const successResult = await result.json();
+        setReview(successResult.review);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (saleId !== '') {
+      handleOtpRequest();
+    }
+  }, [saleId]);
+
+  const handleOtpRequest = async () => {
+    let items = { refresh };
+    let response = await fetch('https://api.prestigedelta.com/refreshtoken/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(items)
+    });
+    let data = await response.json();
+    let accessToken = data.access_token;
+
+    let payload = { sale_id: saleId };
+
+    try {
+      let result = await fetch('https://api.prestigedelta.com/businessbopis/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (result.status !== 200) {
+        const errorResult = await result.json();
+        setMessage(JSON.stringify(errorResult));
+      } else {
+        const successResult = await result.json();
+        setMessage('Get OTP from the order list page, which is to be given to the vendor upon delivery!');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const changeProductCount = (productId, amount) => {
     setSelectedProducts((prevSelectedProducts) => {
@@ -253,111 +240,128 @@ const handleDob =(event)=>{
       return total + price * product.count;
     }, 0);
   };
-
+console.log(selectedProducts)
   return (
     <div>
-    <Link to='/components/test'>
-          <i className="fa-solid fa-chevron-left bac"></i>
-        </Link>
+      <Link to='/components/test'>
+        <i className="fa-solid fa-chevron-left bac"></i>
+      </Link>
       <ChakraProvider>
-      <Heading fontSize='18px'>Checkout Page</Heading>
-        {Object.values(selectedProducts).map((obj, index) => (
-          <Card key={index}>
-            <CardBody padding={2}>
-              <Heading size='xs'>{obj.name}</Heading>
-              <Image
-                boxSize='150px'
-                objectFit='cover'
-                src={`${obj.image}`}
-                alt={`${obj.name}`}
-              />
-              <Text>Pack Price: {obj.pack_price}</Text>
-              <Text>Unit Price: {obj.price}</Text>
-              <RadioGroup
-                onChange={(value) => changePriceType(obj.id, value)}
-                value={obj.priceType}
-              >
-                <Stack direction='row' align='center' justify='center' display='flex'>
-                  <Radio value='Item'>Unit</Radio>
-                  <Radio value='Pack'>Pack</Radio>
-                </Stack>
-              </RadioGroup>
-              <Stack direction="row" align="center" justify='center' display='flex'>
-                <IconButton
-                  aria-label="Decrease count"
-                  icon={<MinusIcon />}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    changeProductCount(obj.id, -1);
-                  }}
-                  size="sm"
-                />
-                <Box>{obj.count}</Box>
-                <IconButton
-                  aria-label="Increase count"
-                  icon={<AddIcon />}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    changeProductCount(obj.id, 1);
-                  }}
-                  size="sm"
-                />
-              </Stack>
-              <Text ml='7%'>Set time to pick up goods</Text>         
-    <Input
-           onChange={handleDob}
-        label=""
-        type='date'
-        width={273}
-      
-      /> </CardBody>
-       <Heading fontSize='16px'>Total: ₦{(parseInt(calculateTotal().toFixed(2))).toLocaleString('en-US')}</Heading>
-       
-          </Card>
-        ))} 
-       
-       <br/> {buttonVisible && ( <Button colorScheme='green' onClick={aprod}>Purchase</Button>
+        <Heading fontSize='18px' mb={4}>Checkout Page</Heading>
+        <Grid templateColumns="repeat(auto-fit, minmax(250px, 1fr))" gap={4}>
+          {Object.values(selectedProducts).map((product, index) => (
+            <GridItem key={index}>
+              <Card ml={7} mr={7} backgroundColor='#F3E5AB' >
+                <CardBody padding={2}>
+                  <Heading size='xs'>{product.name}</Heading>
+                  <Stack display='flex' justify='center' flexDirection='row'>
+                  <Image 
+                    boxSize='150px'
+                    objectFit='cover'
+                    src={product.image}
+                    alt={product.name}
+                  />
+                  </Stack>
+                  <Text>Pack Price: {product.pack_price}</Text>
+                  <Text>Unit Price: {product.price}</Text>
+                  <RadioGroup
+                    onChange={(value) => changePriceType(product.id, value)}
+                    value={product.priceType}
+                  >
+                    <Stack direction='row' align='center' justify='center' display='flex'>
+                      <Radio value='Item'>Unit</Radio>
+                      <Radio value='Pack'>Pack</Radio>
+                    </Stack>
+                  </RadioGroup>
+                  <Stack direction="row" align="center" justify='center' display='flex'>
+                    <IconButton
+                      aria-label="Decrease count"
+                      icon={<MinusIcon />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        changeProductCount(product.id, -1);
+                      }}
+                      size="sm"
+                    />
+                    <Box>{product.count}</Box>
+                    <IconButton
+                      aria-label="Increase count"
+                      icon={<AddIcon />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        changeProductCount(product.id, 1);
+                      }}
+                      size="sm"
+                    />
+                  </Stack>
+                                  </CardBody>
+                  </Card>
+            </GridItem>
+          ))}
+        </Grid>
+        <Text mt={2}>Set time to pick up goods</Text>
+                  <HStack display='flex' justify='center'>
+                    <Input
+                      onChange={handlePickUpDateChange}
+                      type='date'
+                      width={135}
+                    />
+                    <Input
+                      onChange={handlePickUpTimeChange}
+                      type='time'
+                      width={135}
+                    />
+                  </HStack>
+                  <Heading fontSize='16px'>Total: ₦{(parseInt(calculateTotal().toFixed(2))).toLocaleString('en-US')}</Heading>
+            
+        <br />
+        {buttonVisible ? (
+          <Button colorScheme='green' onClick={handlePurchase}>Purchase</Button>
+        ) : (
+          <Spinner />
         )}
-        {!buttonVisible && <Spinner/>}
-        <Text>{messag}</Text>
-        {sale_id ? (<Button colorScheme='blue' onClick={onOpen}>Review Merchant</Button>): null}
-
+        <Text>{message}</Text>
+        {saleId && (
+          <Button colorScheme='blue' onClick={onOpen}>Review Merchant</Button>
+        )}
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-          
             <ModalHeader>Review and Rate</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-      {fun === '' ? (
-      <div>
-      <Textarea
-        value={value}
-        onChange={handleInputChange}
-        placeholder='Write a review'
-        size='sm'
-      />
-       <Select
-        onChange={handleInputCha}
-        className="pne"
-        placeholder="Select a Rating"
-        options={opt}
-        value={inputV} /><br/>
-       <br/>   <br/> {fun ? <p>{fun}</p> : null} 
-                {buttonVisible && (  <Button  colorScheme='blue' variant='solid' onClick={fproj}>Submit</Button> 
-                )}
-      {!buttonVisible && <p>Processing...</p>}
-            
-            </div>) :
-            <div>
-          
-          <img className='goo' src={good} alt="" />
-          <Heading fontSize='14px' className="hoo">Review and Rating Submitted!</Heading>  
-      </div>}
-      </ModalBody>
-              </ModalContent>
-      
-            </Modal>
+              {review === '' ? (
+                <div>
+                  <Textarea
+                    value={review}
+                    onChange={handleInputChange}
+                    placeholder='Write a review'
+                    size='sm'
+                  />
+                  <Select
+                    onChange={(selectedOption) => setRating(selectedOption.value)}
+                    placeholder="Select a Rating"
+                    options={[0, 1, 2, 3, 4, 5].map((value) => ({
+                      label: value,
+                      value
+                    }))}
+                    value={rating}
+                  /><br /><br />
+                  {buttonVisible ? (
+                    <Button colorScheme='blue' variant='solid' onClick={handleReviewSubmit}>Submit</Button>
+                  ) : (
+                    <p>Processing...</p>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <img className='goo' src={good} alt="" />
+                  <Heading fontSize='14px' className="hoo">Review and Rating Submitted!</Heading>
+                </div>
+              )}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </ChakraProvider>
     </div>
   );

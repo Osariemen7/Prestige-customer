@@ -25,7 +25,7 @@ const defaultCenter = {
   lng: 150.644
 };
 
-const Map = () => {
+const Hat = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [map, setMap] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(defaultCenter);
@@ -43,7 +43,7 @@ const Map = () => {
           return {
             id: index + 1,
             name: item.business_name,
-            icon: 'https://myprest.s3.eu-west-2.amazonaws.com/shopping-cart_7835563.png', // Standard Google Maps cart-like icon
+            icon: 'https://myprest.s3.eu-west-2.amazonaws.com/icart.jpeg', // Standard Google Maps cart-like icon
             location: { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) },
             pack_price: parseFloat(item.pack_price),
             unit_price: parseFloat(item.unit_price),
@@ -57,10 +57,11 @@ const Map = () => {
             return {
               id: index + 1,
               name: item.business_name,
-              icon: 'http://maps.google.com/mapfiles/kml/pal4/icon62.png', // Standard Google Maps cart-like icon
+              icon: 'https://myprest.s3.eu-west-2.amazonaws.com/icart.jpeg', // Standard Google Maps cart-like icon
               location: { lat, lng },
               pack_price: parseFloat(item.pack_price),
-              unit_price: parseFloat(item.unit_price)
+              unit_price: parseFloat(item.unit_price),
+              business_id: item.business_id
             };
           } else {
             return null;
@@ -147,6 +148,12 @@ const Map = () => {
     );
   };
 
+  const handleMarkerDragEnd = (event) => {
+    const newLat = event.latLng.lat();
+    const newLng = event.latLng.lng();
+    setCurrentPosition({ lat: newLat, lng: newLng });
+  };
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -179,22 +186,40 @@ const Map = () => {
           >
             <Marker
               position={currentPosition}
+              draggable={true}
+              onDragEnd={handleMarkerDragEnd}
+              label={{
+                text: "You",
+                color: "blue",
+                fontSize: "16px",
+                fontWeight: "bold"
+              }}
               icon={{
-                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                labelOrigin: new window.google.maps.Point(0, -20)
               }}
             />
             {places.map((place, index) => (
+              <div>
+              
               <Marker
                 key={index}
                 title={place.name}
+                label={{
+                  text: `₦${place.unit_price}`,
+                  color: "black",
+                  fontSize: "16px",
+                  fontWeight: "bold"
+                }}
                 icon={{
                   url: place.icon,
-                  scaledSize: new window.google.maps.Size(32, 32) // Adjust size if needed
+                  scaledSize: new window.google.maps.Size(42, 42),
+                  labelOrigin: new window.google.maps.Point(24, -10)
                 }}
                 position={place.location}
                 onClick={() => setSelectedPlace(place)}
               />
-            ))}
+           </div> ))}
 
             {directions && (
               <DirectionsRenderer directions={directions} />
@@ -252,4 +277,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default Hat;
