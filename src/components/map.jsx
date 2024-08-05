@@ -25,7 +25,7 @@ const defaultCenter = {
   lng: 150.644
 };
 
-const Hat = () => {
+const Map = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [map, setMap] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(defaultCenter);
@@ -184,6 +184,7 @@ const Hat = () => {
             onLoad={onLoad}
             onUnmount={onUnmount}
           >
+           {window.google && (
             <Marker
               position={currentPosition}
               draggable={true}
@@ -199,6 +200,7 @@ const Hat = () => {
                 labelOrigin: new window.google.maps.Point(0, -20)
               }}
             />
+             )}
             {places.map((place, index) => (
               <div>
               
@@ -277,4 +279,4 @@ const Hat = () => {
   );
 };
 
-export default Hat;
+export default Map;
