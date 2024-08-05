@@ -121,7 +121,7 @@ const fetchPlaces = async () => {
   }
 return(
     <div>
-    <Link to='/components/test'>
+    <Link to='/components/map'>
           <i className="fa-solid fa-chevron-left bac"></i>
         </Link>
     <ChakraProvider>

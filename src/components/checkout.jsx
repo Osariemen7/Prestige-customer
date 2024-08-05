@@ -243,7 +243,7 @@ const Checkout = () => {
 console.log(selectedProducts)
   return (
     <div>
-      <Link to='/components/test'>
+      <Link to='/components/map'>
         <i className="fa-solid fa-chevron-left bac"></i>
       </Link>
       <ChakraProvider>

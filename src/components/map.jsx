@@ -14,6 +14,7 @@ import {
   Button,
   Stack,
 } from '@chakra-ui/react';
+import { Nav } from './nav.jsx'
 
 const containerStyle = {
   width: '100%',
@@ -171,10 +172,7 @@ const Map = () => {
   return (
     <ChakraProvider>
       <div>
-        <Link to='/components/product'>
-          <i className="fa-solid fa-chevron-left bac"></i>
-        </Link>
-
+        <Nav/>
         <LoadScript googleMapsApiKey="AIzaSyCP4llmkll6GKy5NZ9RdmR3-U5paXEi4ug" libraries={['places']}>
           <Button colorScheme='green' mb={2} onClick={onOpen}>Search Product</Button>
           <GoogleMap
