@@ -241,8 +241,8 @@ return(
               <h1 className="h1">{hidden}</h1>
               <div>
               <Stack direction='row'm={3} spacing={3} justify='center'>
-                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
-               <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Buy Items</Button>
+                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Transfers</Button>
                <Button mb={2} colorScheme='blue' variant='solid' onClick={airtime}>Buy Airtime</Button>
                </Stack>
        
@@ -270,8 +270,8 @@ return(
                 <div >
                 <Stack direction='row'm={3} spacing={3} justify='center'>
                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
-               <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Buy Items</Button>
-               <Button mb={2} colorScheme='blue' variant='solid' onClick={airtime}>Airtime</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={transfer}>Transfers</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={airtime}>Buy Airtime</Button>
                </Stack>
                 </div>
              </div>

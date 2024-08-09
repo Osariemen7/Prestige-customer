@@ -97,7 +97,7 @@ const Checkout = () => {
     const formattedPickUpDateTime = `${pickUpDateTime.getDate().toString().padStart(2, '0')}/${(pickUpDateTime.getMonth() + 1).toString().padStart(2, '0')}/${pickUpDateTime.getFullYear()} ${pickUpDateTime.getHours().toString().padStart(2, '0')}:${pickUpDateTime.getMinutes().toString().padStart(2, '0')}`;
     let products = Object.values(selectedProducts).map((product) => ({
       name: product.name,
-      price: parseInt(product.price),
+      price: JSON.stringify(parseInt(product.price)),
       quantity: product.count,
       quantity_type: product.priceType,
       pack_size: product.pack_size,
@@ -241,6 +241,14 @@ const Checkout = () => {
     }, 0);
   };
 console.log(selectedProducts)
+const Purchase =()=>{
+  if (pickUpDate === ''){
+    setMessage('please set time to pick up goods')
+  } else{
+    handlePurchase()
+  }
+}
+
   return (
     <div>
       <Link to='/components/map'>
@@ -316,7 +324,7 @@ console.log(selectedProducts)
             
         <br />
         {buttonVisible ? (
-          <Button colorScheme='green' onClick={handlePurchase}>Purchase</Button>
+          <Button colorScheme='green' onClick={Purchase}>Purchase</Button>
         ) : (
           <Spinner />
         )}

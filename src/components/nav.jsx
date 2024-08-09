@@ -47,7 +47,7 @@ const navigate = useNavigate()
                     </li>
                     
                     <li className='nav-list'>
-                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
@@ -101,7 +101,7 @@ const navigate = useNavigate()
             <ul className='nav-menu-item'>
                     
                     <li className='nav-list'>
-                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-wallet"></i>
+                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
