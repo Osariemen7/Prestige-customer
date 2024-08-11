@@ -65,15 +65,16 @@ const Order = () => {
         <Nav/>
             <ChakraProvider>
             {info.map((obj, index) => (
-                <Card key={index} m={3} boxShadow='6px 3px green' backgroundColor='darkgreen' color='#fff'>
+                <Card key={index} m={3} boxShadow='6px 3px grey' backgroundColor='lightblue' color=''>
                     <CardBody>
-                     <Text>Amount: {obj.amount}</Text>
+                    <Heading fontSize='16px'>{obj.business_name}</Heading>
+                     <Text>Amount: ₦{(parseFloat(obj.amount)).toLocaleString('en-US')}</Text>
                      <Heading fontSize='14px'>OTP: {obj.otp_code}</Heading>
             {obj.sold_products.map((prod, inde) =>(
                 <div key={inde}>
                 <Text>{prod.product_name}: {prod.sold_quantity}</Text>
                 <Text>{prod.quantity_type}</Text>
-                <Text>Purchased Amount: {prod.sold_amount}</Text>
+                <Text>Purchased Amount: ₦{(parseFloat(prod.sold_amount)).toLocaleString('en-Us')}</Text>
                 </div>
             ))}
                     </CardBody>

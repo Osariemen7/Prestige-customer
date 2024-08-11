@@ -41,8 +41,10 @@ const Checkout = () => {
   const [pickUpTime, setPickUpTime] = useState('');
   const [saleId, setSaleId] = useState('');
   const [review, setReview] = useState('');
-  const [rating, setRating] = useState('');
+  const [rat, setRating] = useState('');
+  const [rev, setRev] = useState('');
   const location = useLocation();
+  const [status, setStatus] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialItems = location.state.data.productsToCheckout;
   const business = location.state.data.store;
@@ -121,9 +123,10 @@ const Checkout = () => {
         const errorResult = await result.json();
         setMessage(JSON.stringify(errorResult));
       } else {
-        const successResult = await result.json();
-        setMessage(successResult.message);
-        setSaleId(successResult.sale_id);
+        const successRes = await result.json();
+        setMessage(successRes.message);
+        setStatus(successRes.status)
+        setSaleId(successRes.sale_id);
       }
     } catch (error) {
       console.error(error);
@@ -143,7 +146,7 @@ const Checkout = () => {
     });
     let data = await response.json();
     let accessToken = data.access_token;
-
+    let rating = rat.value
     let payload = { sale_id: saleId, rating, review };
 
     try {
@@ -159,22 +162,16 @@ const Checkout = () => {
 
       if (result.status !== 200) {
         const errorResult = await result.json();
-        setMessage(JSON.stringify(errorResult));
       } else {
         const successResult = await result.json();
-        setReview(successResult.review);
+        setRev(successResult);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
-    if (saleId !== '') {
-      handleOtpRequest();
-    }
-  }, [saleId]);
-
+  
   const handleOtpRequest = async () => {
     let items = { refresh };
     let response = await fetch('https://api.prestigedelta.com/refreshtoken/', {
@@ -212,7 +209,8 @@ const Checkout = () => {
       console.error(error);
     }
   };
-
+console.log(rev)
+console.log(message)
   const changeProductCount = (productId, amount) => {
     setSelectedProducts((prevSelectedProducts) => {
       const updatedProduct = {
@@ -328,7 +326,7 @@ const Purchase =()=>{
         ) : (
           <Spinner />
         )}
-        <Text>{message}</Text>
+        <Text m={3}>{status} {message}</Text>
         {saleId && (
           <Button colorScheme='blue' onClick={onOpen}>Review Merchant</Button>
         )}
@@ -338,23 +336,23 @@ const Purchase =()=>{
             <ModalHeader>Review and Rate</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {review === '' ? (
+              {rev === '' ? (
                 <div>
                   <Textarea
                     value={review}
                     onChange={handleInputChange}
                     placeholder='Write a review'
                     size='sm'
-                  />
+                  /><br /> <br />
                   <Select
-                    onChange={(selectedOption) => setRating(selectedOption.value)}
-                    placeholder="Select a Rating"
-                    options={[0, 1, 2, 3, 4, 5].map((value) => ({
-                      label: value,
-                      value
-                    }))}
-                    value={rating}
-                  /><br /><br />
+  onChange={(selectedOption) => setRating(selectedOption)}
+  placeholder="Select a Rating"
+  options={[0, 1, 2, 3, 4, 5].map((value) => ({
+    label: value,
+    value: value
+  }))}
+  value={rat}
+/><br /><br />
                   {buttonVisible ? (
                     <Button colorScheme='blue' variant='solid' onClick={handleReviewSubmit}>Submit</Button>
                   ) : (
