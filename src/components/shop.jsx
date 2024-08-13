@@ -125,6 +125,7 @@ return(
           <i className="fa-solid fa-chevron-left bac"></i>
         </Link>
     <ChakraProvider>
+    <Heading fontSize='19px' m={2}>{store.name}</Heading>
     <Box onClick={goToCheckout} left='70%' bottom='40%' position='fixed' zIndex='1' backgroundColor='#fcfbfc'
      border='1px solid lightblue' padding='2%' boxShadow= '5px 5px lightblue'>
         <Heading fontSize='14px' color='darkgreen'>Checkout</Heading>

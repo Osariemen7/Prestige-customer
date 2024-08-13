@@ -1,5 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import { ChakraProvider, Box, Flex } from '@chakra-ui/react';import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDisclosure, Input, Card, Text, Button, Heading, Stack, Spinner  } from "@chakra-ui/react"
 import {
@@ -12,6 +11,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import good from './images/good.svg'
+import { FaChevronLeft } from 'react-icons/fa';
 
 
 
@@ -188,66 +188,88 @@ async function fsav(e) {
 
     return(
         <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}}>
-        <ChakraProvider>
-        <Link to='/components/accounts'><i class="fa-solid fa-chevron-left bac"></i></Link>
-       <br/>
-        <p style={{marginTop: '15px'}}>Please select a network provider</p>
-        <Stack direction='row' m={2} gap='10px' spacing={2} align='center' justify='center'>        
-                   <Button colorScheme='blue' variant={outline  === 'glo'?'solid' : 'outline'} onClick={() =>openModal('glo')}>GLO</Button> 
-                   <Button colorScheme='blue' variant={outline ==='mtn' ? 'solid' : 'outline'} onClick={() =>openModal1('mtn')}>MTN</Button> 
-                   <Button colorScheme='blue' variant={outline ==='etisalat' ?'solid' : 'outline'} onClick={() =>openModal2('etisalat')}>9mobile</Button>
-                   <Button colorScheme='blue' variant={outline ==='airtel' ?'solid' : 'outline'} onClick={() =>openModal3('airtel')}>Airtel</Button>
-                   </Stack>
-           <br/>
-           <div className='mobile-view'>
-          <span style={{fontSize:'30px'}}>₦</span> <Input
-            width={173}
-            fontSize='20px'
-          ml={1}
-           type='text'
-             value={amount}
-      onChange={handleInputChange}
-            placeholder="Amount"
-           /><br/><br/>
-           <Input
+       <Link to='/components/accounts'>
+          <FaChevronLeft size="24"  />
+        </Link>
+        <Box
+      bg='#F0F8FF'
+      h='100vh'
+      p='3%'
+      display='flex'
+      flexDirection='column'
+      alignItems='center'
+      justifyContent='center'
+    >
+      <ChakraProvider>
+        <Heading fontSize='15px'>Buy airtime and Get 2.5% cashback</Heading>
+        <Text mt='15px' fontSize='lg'>Please select a network provider</Text>
+        <Stack direction='row' m={2} spacing={4} align='center' justify='center'>
+          <Button colorScheme='blue' variant={outline === 'glo' ? 'solid' : 'outline'} onClick={() => openModal('glo')}>GLO</Button>
+          <Button colorScheme='blue' variant={outline === 'mtn' ? 'solid' : 'outline'} onClick={() => openModal1('mtn')}>MTN</Button>
+          <Button colorScheme='blue' variant={outline === 'etisalat' ? 'solid' : 'outline'} onClick={() => openModal2('etisalat')}>9mobile</Button>
+          <Button colorScheme='blue' variant={outline === 'airtel' ? 'solid' : 'outline'} onClick={() => openModal3('airtel')}>Airtel</Button>
+        </Stack>
+        <Box className='mobile-view' display={{ base: 'block', md: 'none' }} mt={4}>
+          <Flex align='center'>
+            <Text fontSize='2xl'>₦</Text>
+            <Input
+              width={173}
+              fontSize='20px'
+              ml={1}
+              type='text'
+              value={amount}
+              onChange={handleInputChange}
+              placeholder="Amount"
+            />
+          </Flex>
+          <Input
             width={273}
-          ml={2}
-          fontSize='20px'
-             type="number"
-             value={typedNumber}
-             onChange={handleNumber}
+            mt={4}
+            fontSize='20px'
+            type="number"
+            value={typedNumber}
+            onChange={handleNumber}
             placeholder="Phone Number"
-           />
-           </div>
-            <div className='desktop-view'>
-      <Input
+          />
+        </Box>
+        <Box className='desktop-view' display={{ base: 'none', md: 'block' }} mt={4}>
+          <Input
             width={400}
-          ml={5}
-           type='text'
-             value={amount}
-      onChange={handleInputChange}
+            ml={5}
+            type='text'
+            value={amount}
+            onChange={handleInputChange}
             placeholder="Amount"
-           /><br/><br/>
-           <Input
+          />
+          <Input
             width={400}
-          ml={5}
-             type="number"
-             value={typedNumber}
-             onChange={handleNumber}
+            mt={4}
+            ml={5}
+            type="number"
+            value={typedNumber}
+            onChange={handleNumber}
             placeholder="Phone Number"
-           />
-      </div>
-      
-           <br/>
-           {typedNumber.length === 11?(null):<div>
-            {predictedAccount && (
-        <p onClick={handlePredictionClick}> {predictedAccount}</p>
-      )}<br/></div>}
-      {buttonVisible && (  <Button colorScheme='blue' mr={3}  onClick={fsav}>Proceed</Button> 
-                )}
-      {!buttonVisible && <p>Processing...</p>}
-      <p>{message}</p>
-
+          />
+        </Box>
+        <Box mt={4}>
+          {typedNumber.length === 11 ? null : (
+            <Box>
+              {predictedAccount && (
+                <Text onClick={handlePredictionClick} cursor='pointer'>{predictedAccount}</Text>
+              )}
+              <br />
+            </Box>
+          )}
+          {buttonVisible ? (
+            <Button colorScheme='blue' mr={3} onClick={fsav}>Proceed</Button>
+          ) : (
+            <Text>Processing...</Text>
+          )}
+          <Text mt={2}>{message}</Text>
+        </Box>
+      </ChakraProvider>
+    </Box>
+    <ChakraProvider>
       <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
         <ModalContent>

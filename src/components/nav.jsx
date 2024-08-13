@@ -28,6 +28,10 @@ const navigate = useNavigate()
     setShowMoreItems(!showMoreItems);
   };
   const showSidebar = () => setSidebar(!sidebar)
+
+  const handleLinkClick = () => {
+    setSidebar(false);
+  };
   let tok= JSON.parse(localStorage.getItem("user-info"));
    
   let sub_account = tok.user.has_default_sub_accounts
@@ -47,40 +51,40 @@ const navigate = useNavigate()
                     </li>
                     
                     <li className='nav-list'>
-                    <Link to='/components/map' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <Link to='/components/map' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                    <Link to='/components/accounts' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-wallet home"></i>
                       <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/order' className='nav-text'><i class="fa-solid fa-list-check"></i>
+                    <Link to='/components/order' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-list-check"></i>
                       <p className='dfp'>Order List</p></Link>
                     </li>
                     
                     <li className='nav-list'>
-                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
+                    <Link to='/components/chat' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/overdraft' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                    <Link to='/components/overdraft' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-money-bill"></i>
                       <p className='dfp'>Overdraft</p></Link>
                     </li>  
                     <li className='nav-list'>
-            <Link to='/components/expense' className='nav-text'>
+            <Link to='/components/expense' className='nav-text' onClick={handleLinkClick}>
             <i class="fa-solid fa-chart-line"></i>
               <p className='dfp'>Expense</p>
             </Link>
           </li>
                     <li className='nav-list'>
-            <Link to='/components/support' className='nav-text'>
+            <Link to='/components/support' className='nav-text' onClick={handleLinkClick}>
             <i class="fa-solid fa-phone"></i>
               <p className='dfp'>Support</p>
             </Link>
           </li>
           <li className='nav-list'>
-            <Link to='/components/referral' className='nav-text'>
+            <Link to='/components/referral' className='nav-text' onClick={handleLinkClick}>
             <i class="fa-solid fa-user-plus"></i>
               <p className='dfp'>Referral</p>
             </Link>

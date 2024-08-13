@@ -69,7 +69,7 @@ const Order = () => {
                     <CardBody>
                     <Heading fontSize='16px'>{obj.business_name}</Heading>
                      <Text>Amount: ₦{(parseFloat(obj.amount)).toLocaleString('en-US')}</Text>
-                     <Heading fontSize='14px'>OTP: {obj.otp_code}</Heading>
+            {obj.otp_code === null?<Text>OTP: Merchant is yet to generate OTP</Text> :<Heading fontSize='14px'>OTP: {obj.otp_code}</Heading>}
             {obj.sold_products.map((prod, inde) =>(
                 <div key={inde}>
                 <Text>{prod.product_name}: {prod.sold_quantity}</Text>

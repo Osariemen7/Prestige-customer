@@ -15,6 +15,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { Nav } from './nav.jsx'
+import Select from 'react-select';
 
 const containerStyle = {
   width: '100%',
@@ -35,8 +36,18 @@ const Map = () => {
   const [query, setQuery] = useState('');
   const [price, setPrice] = useState('');
   const [directions, setDirections] = useState(null);
+  const [type, setType] = useState('item');
   const navigate = useNavigate();
 
+  const optio = ['item', 'pack'];
+    const opt = optio.map((p) => ({
+      label: p,
+      value: p,
+    }));
+
+    const handleInput = (input) => {
+      setType(input)
+    }
   const transformData = async (data) => {
     const geocodedPlaces = await Promise.all(
       data.map(async (item, index) => {
@@ -48,7 +59,9 @@ const Map = () => {
             location: { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) },
             pack_price: parseFloat(item.pack_price),
             unit_price: parseFloat(item.unit_price),
-            business_id: item.business_id
+            business_id: item.business_id,
+            available_pack: item.packs_in_stock,
+            available: item.units_in_stock
           };
         } else {
           const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(item.address)}&key=YOUR_GOOGLE_MAPS_API_KEY`);
@@ -107,16 +120,19 @@ const Map = () => {
     rep = await rep.json();
     let bab = rep.access_token;
 
-    const response = await fetch(`https://api.prestigedelta.com/productsearch/?product_name=${query}&max_price=${price}&lng=${currentPosition.lng}&lat=${currentPosition.lat}&max_distance=1`, {
+    const response = await fetch(`https://api.prestigedelta.com/productsearch/?product_name=${query}&max_price=${price}&lng=${currentPosition.lng}&lat=${currentPosition.lat}&max_distance=1&quantity_type=${type.value}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${bab}`
       }
     });
+    if (response.status === 401) {
+      navigate('/components/login');}
+      else {
     const data = await response.json();
     const filteredData = data.filter(place => place.latitude !== null && place.longitude !== null);
     const transformedData = await transformData(filteredData);
-    setPlaces(transformedData);
+    setPlaces(transformedData);}
   };
 
   const handleShop = (place) => {
@@ -199,11 +215,9 @@ const Map = () => {
               }}
             />
              )}
-            {places.map((place, index) => (
-              <div>
-              
+            {places.map((place) => (
               <Marker
-                key={index}
+                key={place.business_id}
                 title={place.name}
                 label={{
                   text: `₦${place.unit_price}`,
@@ -219,7 +233,7 @@ const Map = () => {
                 position={place.location}
                 onClick={() => setSelectedPlace(place)}
               />
-           </div> ))}
+           ))}
 
             {directions && (
               <DirectionsRenderer directions={directions} />
@@ -231,8 +245,8 @@ const Map = () => {
               >
                 <div>
                   <h2>{selectedPlace.name}</h2>
-                  <p>Unit Price: ₦{selectedPlace.unit_price}</p>
-                  <p>Pack Price: ₦{selectedPlace.pack_price}</p>
+                  <p>Unit Price: ₦{selectedPlace.unit_price},{selectedPlace.available} available</p>
+                  <p>Pack Price: ₦{selectedPlace.pack_price}, {selectedPlace.available_pack} available: </p>
                   <Stack direction='row' spacing={1} justify='center' mt={2}>
                     <Button colorScheme='green' onClick={() => handleShop(selectedPlace)}>Shop</Button>
                     <Button colorScheme='blue' onClick={handleShowDirections}>Direction</Button>
@@ -258,6 +272,12 @@ const Map = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search for a product"
                   /><br />
+                   <Select
+        onChange={handleInput}
+        className='mop'
+        placeholder="Quantity Type"
+        options={opt}
+        value={type} />
                   <Input
                     placeholder='Maximum Price'
                     w={293}

@@ -124,7 +124,7 @@ const Checkout = () => {
         setMessage(JSON.stringify(errorResult));
       } else {
         const successRes = await result.json();
-        setMessage(successRes.message);
+        setMessage(successRes.message, 'navigate to the page to view order');
         setStatus(successRes.status)
         setSaleId(successRes.sale_id);
       }
