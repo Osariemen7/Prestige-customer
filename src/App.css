@@ -1588,7 +1588,10 @@ form{
     flex-direction: column;
     align-items: center;
   }
- 
+ .mop{
+  width: 80%;
+  margin: 3%;
+ }
  
   .fl{
     display: flex;
