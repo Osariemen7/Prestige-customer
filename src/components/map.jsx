@@ -35,6 +35,7 @@ const Map = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [query, setQuery] = useState('');
   const [price, setPrice] = useState('');
+  const [message, setMessage] = useState('')
   const [directions, setDirections] = useState(null);
   const [type, setType] = useState('item');
   const navigate = useNavigate();
@@ -141,10 +142,13 @@ const Map = () => {
      console.log(place)
   };
 
-  const handleSearch = (event) => {
-    event.preventDefault();
+  const handleSearch = () => {
+    if (places === '' || price === '') {
+        setMessage('All fields must be filled')
+    }
+    else{
     fetchPlaces();
-    onClose();
+    onClose();}
   };
 
   const handleShowDirections = () => {
@@ -185,6 +189,7 @@ const Map = () => {
     }
   }, []);
 
+  
   return (
     <ChakraProvider>
       <div>
@@ -262,7 +267,6 @@ const Map = () => {
               <ModalHeader>Search for Product</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <form onSubmit={handleSearch}>
                   <Input
                     type="text"
                     w={293}
@@ -270,7 +274,7 @@ const Map = () => {
                     m={3}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search for a product"
+                    placeholder="Product Name"
                   /><br />
                    <Select
         onChange={handleInput}
@@ -286,8 +290,8 @@ const Map = () => {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                   /><br /><br />
-                  <Button colorScheme='blue' type="submit">Search</Button>
-                </form>
+                  <Button colorScheme='blue' onClick={handleSearch}>Search</Button>
+                  <p>{message}</p>
               </ModalBody>
             </ModalContent>
           </Modal>
