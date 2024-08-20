@@ -285,7 +285,7 @@ console.log(selectedMessage)
       
       <Heading fontSize='18px'>Business Assistant for {info[0].business_name}</Heading>
       <Text fontSize='14px' p={3}>Hi {info[0].owner_name}, I am your business assistant!<br/> Ask me any question about your business</Text>
-      <Text fontSize='14px' m={2}>once you have reached the allotted number of free responses, you will be charged ₦75 per response</Text>
+      <Text fontSize='14px' m={2}>once you have reached the allotted number of free responses, you will be charged ₦1,500 for 30 responses</Text>
       <Card m='19px' backgroundColor='#F0F8FF' p={3}>
       {selectedMessage && (
         <div>

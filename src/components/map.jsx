@@ -13,6 +13,7 @@ import {
   Input,
   Button,
   Stack,
+  Heading
 } from '@chakra-ui/react';
 import { Nav } from './nav.jsx'
 import Select from 'react-select';
@@ -195,7 +196,10 @@ const Map = () => {
       <div>
         <Nav/>
         <LoadScript googleMapsApiKey="AIzaSyCP4llmkll6GKy5NZ9RdmR3-U5paXEi4ug" libraries={['places']}>
-          <Button colorScheme='green' mb={2} onClick={onOpen}>Search Product</Button>
+      
+        <div className='mobile-view'>
+        <Heading fontSize='18px'>Buy Nearby Products at the Best Prices</Heading>
+        <Button colorScheme='green' mb={2} onClick={onOpen}>Search Product</Button>
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={currentPosition}
@@ -261,6 +265,78 @@ const Map = () => {
             )}
           </GoogleMap>
 
+        </div>
+        <div className='desktop-view'>
+          <div className='content'>
+          <Heading fontSize='18px'>Buy Nearby Products at the Best Prices</Heading>
+          <Button colorScheme='green' mb={2} onClick={onOpen}>Search Product</Button>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={currentPosition}
+            zoom={15}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+          >
+           {window.google && (
+            <Marker
+              position={currentPosition}
+              draggable={true}
+              onDragEnd={handleMarkerDragEnd}
+              label={{
+                text: "You",
+                color: "blue",
+                fontSize: "16px",
+                fontWeight: "bold"
+              }}
+              icon={{
+                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                labelOrigin: new window.google.maps.Point(0, -20)
+              }}
+            />
+             )}
+            {places.map((place) => (
+              <Marker
+                key={place.business_id}
+                title={place.name}
+                label={{
+                  text: `₦${place.unit_price}`,
+                  color: "black",
+                  fontSize: "16px",
+                  fontWeight: "bold"
+                }}
+                icon={{
+                  url: place.icon,
+                  scaledSize: new window.google.maps.Size(42, 42),
+                  labelOrigin: new window.google.maps.Point(24, -10)
+                }}
+                position={place.location}
+                onClick={() => setSelectedPlace(place)}
+              />
+           ))}
+
+            {directions && (
+              <DirectionsRenderer directions={directions} />
+            )}
+            {selectedPlace && (
+              <InfoWindow
+                position={selectedPlace.location}
+                onCloseClick={() => setSelectedPlace(null)}
+              >
+                <div>
+                  <h2>{selectedPlace.name}</h2>
+                  <p>Unit Price: ₦{selectedPlace.unit_price},{selectedPlace.available} available</p>
+                  <p>Pack Price: ₦{selectedPlace.pack_price}, {selectedPlace.available_pack} available: </p>
+                  <Stack direction='row' spacing={1} justify='center' mt={2}>
+                    <Button colorScheme='green' onClick={() => handleShop(selectedPlace)}>Shop</Button>
+                    <Button colorScheme='blue' onClick={handleShowDirections}>Direction</Button>
+                  </Stack>
+                </div>
+              </InfoWindow>
+            )}
+          </GoogleMap>
+          </div>
+        </div>
+          
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
