@@ -16,7 +16,7 @@ const RegisterPage =()=>{
     const [middle_name, setMiddlename] = useState('')
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
-    const [invite_code, setInvite] = useState('')
+    const [invite_code, setInvite] = useState('OSAZ872')
     const location= useLocation()
     const [message, setMessage] = useState("");
     const [check, setCheck] = useState('')
@@ -136,7 +136,7 @@ const RegisterPage =()=>{
       <br/> <br/>
       <ValidationTextField
            onChange={handleInvitecode}
-        label="Invite Code"
+        label="Invite Code (optional)"
         type='text'
         required
         variant="outlined"
