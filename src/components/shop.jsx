@@ -126,7 +126,7 @@ return(
         </Link>
     <ChakraProvider>
     <Heading fontSize='19px' m={2}>{store.name}</Heading>
-    <Text>{store.phone_no}</Text>
+    <Text>Phone Number: {store.phone_no}</Text>
         <Text>{store.address}</Text>
     <Box onClick={goToCheckout} left='70%' bottom='40%' position='fixed' zIndex='1' backgroundColor='#fcfbfc'
      border='1px solid lightblue' padding='2%' boxShadow= '5px 5px lightblue'>
