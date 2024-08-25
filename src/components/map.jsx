@@ -198,7 +198,7 @@ const Map = () => {
         <LoadScript googleMapsApiKey="AIzaSyCP4llmkll6GKy5NZ9RdmR3-U5paXEi4ug" libraries={['places']}>
       
         <div className='mobile-view'>
-        <Heading fontSize='18px'>Buy Nearby Products at the Best Prices</Heading>
+        <Heading fontSize='18px'>Find Nearby Products at the Best Prices</Heading>
         <Button colorScheme='green' mb={2} onClick={onOpen}>Search Product</Button>
           <GoogleMap
             mapContainerStyle={containerStyle}

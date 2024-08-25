@@ -240,7 +240,7 @@ console.log(message)
   };
 console.log(selectedProducts)
 const Purchase =()=>{
-  if (pickUpDate === ''){
+  if (pickUpDate === '' || pickUpTime === ''){
     setMessage('please set time to pick up goods')
   } else{
     handlePurchase()

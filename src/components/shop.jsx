@@ -126,6 +126,8 @@ return(
         </Link>
     <ChakraProvider>
     <Heading fontSize='19px' m={2}>{store.name}</Heading>
+    <Text>{store.phone_no}</Text>
+        <Text>{store.address}</Text>
     <Box onClick={goToCheckout} left='70%' bottom='40%' position='fixed' zIndex='1' backgroundColor='#fcfbfc'
      border='1px solid lightblue' padding='2%' boxShadow= '5px 5px lightblue'>
         <Heading fontSize='14px' color='darkgreen'>Checkout</Heading>
@@ -146,18 +148,20 @@ return(
          className={`card ${selectedProducts[obj.id] ? 'selected' : ''}`}
             m={3}
             style={{ cursor: 'pointer', backgroundColor: selectedProducts[obj.id] ? 'lightgreen' : 'white' }}>
-          <CardBody padding={2}>
+          <CardBody padding={2} >
+          <Stack display='flex' justify='center' flexDirection='row'>
           <Image 
     boxSize='150px'
     objectFit='cover'
     src={`${obj.image}`} alt={`${obj.name}`} />
+    </Stack>
        <Heading size='xs'>{obj.name}</Heading>
             <Text>Available Packs: {obj.pack_count}</Text>
             <Text>Price of Pack: {obj.pack_price}</Text>
             <Text>Unit Price: {obj.price}</Text>
             <Stack direction="row" align="center">
                 {selectedProducts[obj.id] ? (
-                  <Stack direction="row" align="center">
+                  <Stack direction="row" align="center" justify='center' display='flex'>
                     <IconButton
                       aria-label="Decrease count"
                       icon={<MinusIcon />}
