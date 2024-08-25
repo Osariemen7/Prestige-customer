@@ -147,7 +147,7 @@ return(
          onClick={() => toggleSelectProduct(obj)}
          className={`card ${selectedProducts[obj.id] ? 'selected' : ''}`}
             m={3}
-            style={{ cursor: 'pointer', backgroundColor: selectedProducts[obj.id] ? 'lightgreen' : 'white' }}>
+            style={{ cursor: 'pointer', backgroundColor: selectedProducts[obj.id] ? 'lightblue' : 'white' }}>
           <CardBody padding={2} >
           <Stack display='flex' justify='center' flexDirection='row'>
           <Image 
@@ -157,9 +157,9 @@ return(
     </Stack>
        <Heading size='xs'>{obj.name}</Heading>
             <Text>Available Packs: {obj.pack_count}</Text>
-            <Text>Price of Pack: {obj.pack_price}</Text>
-            <Text>Unit Price: {obj.price}</Text>
-            <Stack direction="row" align="center">
+            <Text>Price of Pack: ₦{parseFloat(obj.pack_price).toLocaleString('en-US')}</Text>
+            <Text>Unit Price: ₦{parseFloat(obj.price).toLocaleString('en-US')}</Text>
+            <Stack direction="row" align="center" justify='center'>
                 {selectedProducts[obj.id] ? (
                   <Stack direction="row" align="center" justify='center' display='flex'>
                     <IconButton
