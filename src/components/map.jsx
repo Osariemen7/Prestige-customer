@@ -63,7 +63,9 @@ const Map = () => {
             unit_price: parseFloat(item.unit_price),
             business_id: item.business_id,
             available_pack: item.packs_in_stock,
-            available: item.units_in_stock
+            available: item.units_in_stock,
+            phone_no: (item.phone_number).replace('234', '0'),
+          address: item.address
           };
         } else {
           const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(item.address)}&key=YOUR_GOOGLE_MAPS_API_KEY`);
@@ -254,8 +256,18 @@ const Map = () => {
               >
                 <div>
                   <h2>{selectedPlace.name}</h2>
-                  <p>Unit Price: ₦{selectedPlace.unit_price},{selectedPlace.available} available</p>
-                  <p>Pack Price: ₦{selectedPlace.pack_price}, {selectedPlace.available_pack} available: </p>
+                  <p>
+  Unit Price: ₦{selectedPlace.unit_price}, 
+  <span style={{ color: selectedPlace.available < 5 ? 'red' : 'black' }}>
+    {selectedPlace.available} left
+  </span> 
+</p>
+<p>
+  Pack Price: ₦{selectedPlace.pack_price}, 
+  <span style={{ color: selectedPlace.available_pack < 5 ? 'red' : 'black' }}>
+    {selectedPlace.available_pack} left
+  </span>
+</p>
                   <Stack direction='row' spacing={1} justify='center' mt={2}>
                     <Button colorScheme='green' onClick={() => handleShop(selectedPlace)}>Shop</Button>
                     <Button colorScheme='blue' onClick={handleShowDirections}>Direction</Button>
