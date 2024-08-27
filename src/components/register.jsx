@@ -134,14 +134,8 @@ const RegisterPage =()=>{
       <br/> <br/>
       <CssTextField label="Middle Name" onChange={handleMiddlename} id="custom-css-outlined-input" />
       <br/> <br/>
-      <ValidationTextField
-           onChange={handleInvitecode}
-        label="Invite Code (optional)"
-        type='text'
-        required
-        variant="outlined"
-        id="validation-outlined-input"
-      /><br/><br/>
+      <CssTextField label="Invite Code (optional)" onChange={handleInvitecode} id="custom-css-outlined-input" />
+    <br/><br/>
       <ValidationEyeField
         onChange={handlePasswordChange}
         label="Create Password"
