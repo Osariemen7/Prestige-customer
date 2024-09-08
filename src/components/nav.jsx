@@ -55,7 +55,7 @@ const navigate = useNavigate()
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-wallet home"></i>
+                    <Link to='/components/accounts' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-wallet"></i>
                       <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
@@ -67,10 +67,7 @@ const navigate = useNavigate()
                     <Link to='/components/chat' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
                     </li>
-                    <li className='nav-list'>
-                    <Link to='/components/overdraft' className='nav-text' onClick={handleLinkClick}><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Overdraft</p></Link>
-                    </li>  
+                      
                     <li className='nav-list'>
             <Link to='/components/expense' className='nav-text' onClick={handleLinkClick}>
             <i class="fa-solid fa-chart-line"></i>
@@ -109,7 +106,7 @@ const navigate = useNavigate()
                       <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet"></i>
                       <p className='dfp'>Account</p></Link>
                     </li>  
                     <li className='nav-list'>
@@ -120,10 +117,7 @@ const navigate = useNavigate()
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
                     </li>
-                    <li className='nav-list'>
-                    <Link to='/components/overdraft' className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Overdraft</p></Link>
-                    </li>  
+                     
                     <li className='nav-list'>
             <Link to='/components/expense' className='nav-text'>
             <i class="fa-solid fa-chart-line"></i>
